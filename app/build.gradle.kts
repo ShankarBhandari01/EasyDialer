@@ -110,4 +110,10 @@ dependencies {
     debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
     releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.0.0")
 
+    //dataStore
+    implementation("androidx.datastore:datastore-preferences-core:1.0.0")
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")
+    // Timber
+    implementation ("com.jakewharton.timber:timber:5.0.1")
+
 }

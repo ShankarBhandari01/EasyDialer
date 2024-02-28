@@ -4,10 +4,11 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.easydialer.data.repository.LoginRepo
+import com.example.easydialer.data.remote.repository.LoginRepo
 import com.example.easydialer.base.BaseViewModel
-import com.example.easydialer.data.ApiResponseData
-import com.example.easydialer.data.Post
+import com.example.easydialer.data.remote.ApiResponseData
+import com.example.easydialer.data.remote.DataModel
+import com.example.easydialer.data.remote.Post
 import com.example.easydialer.utils.NetWorkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,8 +18,8 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val repository: LoginRepo, application: Application
 ) : BaseViewModel(application) {
-    private val _response: MutableLiveData<NetWorkResult<ApiResponseData>> = MutableLiveData()
-    val response: LiveData<NetWorkResult<ApiResponseData>> = _response
+    private val _response: MutableLiveData<NetWorkResult<List<DataModel>>> = MutableLiveData()
+    val response: LiveData<NetWorkResult<List<DataModel>>> = _response
 
     private val _responseposts: MutableLiveData<NetWorkResult<List<Post>>> = MutableLiveData()
     val responseposts: LiveData<NetWorkResult<List<Post>>> = _responseposts

@@ -1,14 +1,15 @@
 package com.example.easydialer.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import com.example.easydialer.data.ApiResponseData
-import com.example.easydialer.data.ApiResultHandler
+import androidx.appcompat.app.AppCompatActivity
+import com.example.easydialer.data.local.AppViewModel
+import com.example.easydialer.data.remote.DataModel
 import com.example.easydialer.databinding.ActivityTeleDialerBinding
 import com.example.easydialer.login.LoginViewModel
+import com.example.easydialer.utils.ApiResultHandler
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,11 +30,13 @@ class TelDialerActivity : AppCompatActivity() {
 
         binding.first.setOnClickListener {
             startActivity(Intent(this@TelDialerActivity, CampaginDetailsActivity::class.java))
+
         }
         init()
         getAgents()
         observeProductData()
     }
+
 
     private fun init() {
         try {
@@ -48,7 +51,7 @@ class TelDialerActivity : AppCompatActivity() {
     private fun observeProductData() {
         try {
             mainViewModel.response.observe(this) { response ->
-                val apiResultHandler = ApiResultHandler<ApiResponseData>(this@TelDialerActivity,
+                val apiResultHandler = ApiResultHandler<List<DataModel>>(this@TelDialerActivity,
                     onLoading = {
                         binding.progress.visibility = View.VISIBLE
                     },

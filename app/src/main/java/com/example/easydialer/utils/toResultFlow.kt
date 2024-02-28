@@ -1,13 +1,10 @@
-package com.example.easydialer.data.remote
+package com.example.easydialer.utils
 
 
 import android.content.Context
-import android.util.Log
 import com.example.easydialer.utils.Constants.Companion.API_FAILED_CODE
 import com.example.easydialer.utils.Constants.Companion.API_INTERNET_CODE
 import com.example.easydialer.utils.Constants.Companion.API_INTERNET_MESSAGE
-import com.example.easydialer.utils.NetWorkResult
-import com.example.easydialer.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

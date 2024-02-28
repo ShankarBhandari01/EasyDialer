@@ -1,13 +1,10 @@
-package com.example.easydialer.data
+package com.example.easydialer.utils
 
 import android.content.Context
-import com.example.easydialer.utils.ApiStatus
 import com.example.easydialer.utils.Constants.Companion.API_FAILURE_CODE
 import com.example.easydialer.utils.Constants.Companion.API_INTERNET_CODE
 import com.example.easydialer.utils.Constants.Companion.API_INTERNET_MESSAGE
 import com.example.easydialer.utils.Constants.Companion.API_SOMETHING_WENT_WRONG_MESSAGE
-import com.example.easydialer.utils.NetWorkResult
-import com.example.easydialer.utils.Utils
 import kotlin.reflect.full.memberProperties
 
 

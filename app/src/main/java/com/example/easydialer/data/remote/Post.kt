@@ -1,4 +1,4 @@
-package com.example.easydialer.data
+package com.example.easydialer.data.remote
 
 data class Post(
     var body: String? = null,
