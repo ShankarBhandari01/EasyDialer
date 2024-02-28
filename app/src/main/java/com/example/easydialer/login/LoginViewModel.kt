@@ -9,7 +9,6 @@ import com.example.easydialer.base.BaseViewModel
 import com.example.easydialer.data.ApiResponseData
 import com.example.easydialer.data.Post
 import com.example.easydialer.utils.NetWorkResult
-import com.google.gson.JsonObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,8 +23,8 @@ class LoginViewModel @Inject constructor(
     private val _responseposts: MutableLiveData<NetWorkResult<List<Post>>> = MutableLiveData()
     val responseposts: LiveData<NetWorkResult<List<Post>>> = _responseposts
 
-    fun getProductsList(jsonObject: JsonObject) = viewModelScope.launch {
-        repository.getProductList(context, jsonObject).collect { values ->
+    fun getAgents() = viewModelScope.launch {
+        repository.getAgents(context).collect { values ->
             _response.value = values
         }
     }

@@ -12,8 +12,8 @@ import retrofit2.http.POST
 
 interface ApiService {
 
-    @POST(Constants.H6)
-    suspend fun getProducts(@Body jsonObject: JsonObject): Response<ApiResponseData>
+    @GET(Constants.AGENT)
+    suspend fun getAgents(): Response<ApiResponseData>
 
     @GET("posts")
     suspend fun getPosts(): Response<List<Post>>

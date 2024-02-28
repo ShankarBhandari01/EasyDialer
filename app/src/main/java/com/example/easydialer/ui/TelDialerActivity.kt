@@ -9,7 +9,6 @@ import com.example.easydialer.data.ApiResponseData
 import com.example.easydialer.data.ApiResultHandler
 import com.example.easydialer.databinding.ActivityTeleDialerBinding
 import com.example.easydialer.login.LoginViewModel
-import com.google.gson.JsonObject
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,7 +22,7 @@ class TelDialerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.toolbar.back.setOnClickListener {
-           onBackPressedDispatcher.onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
 
         binding.toolbar.title.text = "Select Campaign"
@@ -32,9 +31,10 @@ class TelDialerActivity : AppCompatActivity() {
             startActivity(Intent(this@TelDialerActivity, CampaginDetailsActivity::class.java))
         }
         init()
-        getProducts()
+        getAgents()
         observeProductData()
     }
+
     private fun init() {
         try {
 //            productListAdapter = ProductListAdapter()
@@ -44,6 +44,7 @@ class TelDialerActivity : AppCompatActivity() {
             e.stackTrace
         }
     }
+
     private fun observeProductData() {
         try {
             mainViewModel.response.observe(this) { response ->
@@ -66,13 +67,9 @@ class TelDialerActivity : AppCompatActivity() {
         }
     }
 
-    private fun getProducts() {
+    private fun getAgents() {
         try {
-            /*create your json for post request*/
-            var jsonObject = JsonObject().apply {
-
-            }
-            mainViewModel.getProductsList(jsonObject)
+            mainViewModel.getAgents()
         } catch (e: Exception) {
             e.stackTrace
         }

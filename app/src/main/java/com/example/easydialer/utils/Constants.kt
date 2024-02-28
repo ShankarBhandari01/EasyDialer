@@ -3,9 +3,8 @@ package com.example.easydialer.utils
 class Constants {
 
     companion object {
-        const val BASE_URL = "" //replace your base url here
-        const val BASE_URL_GET = "https://jsonplaceholder.typicode.com/"
-        const val H6 = "h6.php"
+        const val BASE_URL = "https://simplydialer.in/public/api/" //replace your base url here
+        const val AGENT = "agent"
         const val API_INTERNET_MESSAGE = "No Internet Connection"
         const val API_SOMETHING_WENT_WRONG_MESSAGE = "Something went wrong"
         const val API_FAILED_CODE = "2222"

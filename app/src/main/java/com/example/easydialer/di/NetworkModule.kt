@@ -5,7 +5,7 @@ import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.easydialer.data.remote.ApiService
 import com.example.easydialer.di.interceptor.ApiInterceptor
 import com.example.easydialer.di.qualifiers.ApiInterceptorQualifier
-import com.example.easydialer.utils.Constants.Companion.BASE_URL_GET
+import com.example.easydialer.utils.Constants.Companion.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -61,7 +61,7 @@ object NetworkModule {
     fun provideRetrofit(
         okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory
     ): Retrofit {
-        return Retrofit.Builder().baseUrl(BASE_URL_GET).client(okHttpClient)
+        return Retrofit.Builder().baseUrl(BASE_URL).client(okHttpClient)
             .addConverterFactory(gsonConverterFactory).build()
     }
 
