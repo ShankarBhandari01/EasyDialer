@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">EasyDialer</string>
     <string name="easy_dialer">Easy Dialer</string>
     <string name="background_image">background image</string>
     <string name="username">Username</string>

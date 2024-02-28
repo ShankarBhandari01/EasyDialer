@@ -29,7 +29,7 @@
             android:layout_gravity="center"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="18dp"
-            android:hint="Calling Phone No."
+            android:hint="@string/calling_phone_no"
             app:boxCornerRadiusBottomEnd="10dp"
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
@@ -67,7 +67,7 @@
             android:layout_marginTop="20dp"
             android:fontFamily="@font/lato_bold"
             android:includeFontPadding="false"
-            android:text="FollowUp Status"
+            android:text="@string/followup_status"
             android:textSize="16sp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -190,7 +190,7 @@
             android:layout_marginTop="20dp"
             android:fontFamily="@font/lato_bold"
             android:includeFontPadding="false"
-            android:text="Follow Up Details"
+            android:text="@string/follow_up_details"
             android:textSize="16sp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -216,7 +216,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:hint="Next FollowUp Date"
+                    android:hint="@string/next_followup_date"
                     app:boxCornerRadiusBottomEnd="10dp"
                     android:id="@+id/datetime"
                     app:boxCornerRadiusBottomStart="10dp"
@@ -251,7 +251,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="15dp"
-                    android:hint="FollowUp Remarks"
+                    android:hint="@string/followup_remarks"
                     app:boxCornerRadiusBottomEnd="10dp"
                     app:boxCornerRadiusBottomStart="10dp"
                     app:boxCornerRadiusTopEnd="10dp"
@@ -269,7 +269,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/lato_bold"
-                        android:hint="Type Remarks Here"
+                        android:hint="@string/type_remarks_here"
                         android:inputType="text"
                         android:textSize="18sp" />
 
@@ -304,7 +304,7 @@
             android:textSize="17sp"
             android:backgroundTint="@android:color/holo_green_dark"
             android:fontFamily="@font/lato_bold"
-            android:text="Call Now" />
+            android:text="@string/call_now" />
 
 
         <Button
@@ -317,7 +317,7 @@
             android:layout_weight="1"
             android:backgroundTint="@android:color/holo_red_dark"
             android:fontFamily="@font/lato_bold"
-            android:text="Stop &amp; Next" />
+            android:text="@string/stop_amp_next" />
 
     </LinearLayout>
 

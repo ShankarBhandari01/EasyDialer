@@ -5,9 +5,9 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.net.NetworkCapabilities.*
-import com.example.easydialer.R
+import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
+import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
+import android.net.NetworkCapabilities.TRANSPORT_WIFI
 import com.example.easydialer.R.string.app_name
 
 object Utils {

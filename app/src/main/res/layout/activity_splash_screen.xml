@@ -23,7 +23,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/lato_bold"
         android:gravity="center"
-        android:text="Easy Dialer"
+        android:text="@string/easy_dialer"
         android:textColor="@color/white"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
