@@ -5,14 +5,14 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.easydialer.data.local.AppViewModel
+import com.example.easydialer.data.local.OfflineDatabaseViewModel
 import com.example.easydialer.ui.MainActivity
 import com.example.easydialer.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
-    private val dataStoreViewModel by viewModels<AppViewModel>()
+    private val dataStoreViewModel by viewModels<OfflineDatabaseViewModel>()
     private val binding by lazy {
         ActivityLoginBinding.inflate(layoutInflater)
     }

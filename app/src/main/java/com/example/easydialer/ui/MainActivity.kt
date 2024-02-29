@@ -4,13 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.example.easydialer.data.local.AppViewModel
+import com.example.easydialer.data.local.OfflineDatabaseViewModel
 import com.example.easydialer.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private val dataStoreViewModel by viewModels<AppViewModel>()
+    private val dataStoreViewModel by viewModels<OfflineDatabaseViewModel>()
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {

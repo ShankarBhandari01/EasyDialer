@@ -16,6 +16,9 @@ class Constants {
         const val API_KEY = ""
         const val USER_PREFERENCES = "USER_LOGIN"
         const val USER_NAME = "USER_NAME"
+        const val OFFLINE_DATABASE = "app_database"
+        const val NOTE_TABLE = "NOTE_TABLE"
+
 
     }
 }

@@ -9,13 +9,17 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AppViewModel @Inject constructor(
-    private val dataStoreRepository: DataStoreRepository
+class OfflineDatabaseViewModel @Inject constructor(
+    private val offlineStoreRepository: OfflineStoreRepository
 ) : ViewModel() {
 
-    val isFirstLaunch: LiveData<Boolean> = dataStoreRepository.getFirstLaunch().asLiveData()
+    val isFirstLaunch: LiveData<Boolean> = offlineStoreRepository.getFirstLaunch().asLiveData()
     fun setFirstLaunch(isFirstLaunch: Boolean) =
         viewModelScope.launch {
-            dataStoreRepository.saveFirstLaunch(isFirstLaunch)
+            offlineStoreRepository.saveFirstLaunch(isFirstLaunch)
         }
+
+    fun getNoteEntity() {
+        val note = offlineStoreRepository.getNote()
+    }
 }

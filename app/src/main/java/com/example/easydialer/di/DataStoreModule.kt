@@ -1,7 +1,7 @@
 package com.example.easydialer.di
 
-import com.example.easydialer.data.local.DataStoreRepository
-import com.example.easydialer.data.local.DataStoreImpl
+import com.example.easydialer.data.local.OfflineStoreRepository
+import com.example.easydialer.data.local.OfflineStoreImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,5 +14,5 @@ abstract class DataStoreModule {
 
     @Singleton
     @Binds
-    abstract fun bindDataStore(dataStoreImpl: DataStoreImpl): DataStoreRepository
+    abstract fun bindDataStore(dataStoreImpl: OfflineStoreImpl): OfflineStoreRepository
 }

@@ -116,4 +116,9 @@ dependencies {
     // Timber
     implementation ("com.jakewharton.timber:timber:5.0.1")
 
+    //Room
+    implementation ("androidx.room:room-runtime:2.6.1")
+    annotationProcessor ("androidx.room:room-compiler:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+
 }

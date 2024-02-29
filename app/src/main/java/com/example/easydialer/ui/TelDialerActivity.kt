@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.easydialer.data.local.AppViewModel
 import com.example.easydialer.data.remote.DataModel
 import com.example.easydialer.databinding.ActivityTeleDialerBinding
 import com.example.easydialer.login.LoginViewModel
