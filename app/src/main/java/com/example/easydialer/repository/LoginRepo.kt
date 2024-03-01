@@ -1,8 +1,8 @@
-package com.example.easydialer.data.remote.repository
+package com.example.easydialer.repository
 
 import android.content.Context
-import com.example.easydialer.data.remote.DataModel
-import com.example.easydialer.data.remote.Post
+import com.example.easydialer.models.DataModel
+import com.example.easydialer.models.Post
 import com.example.easydialer.data.remote.RemoteDataSource
 import com.example.easydialer.utils.toResultFlow
 import com.example.easydialer.utils.NetWorkResult
@@ -19,9 +19,4 @@ class LoginRepo @Inject constructor(private val remoteDataSource: RemoteDataSour
         }
     }
 
-    suspend fun getPostList(context: Context): Flow<NetWorkResult<List<Post>>> {
-        return toResultFlow(context) {
-            remoteDataSource.getPosts()
-        }
-    }
 }

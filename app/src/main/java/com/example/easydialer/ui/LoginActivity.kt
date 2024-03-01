@@ -1,12 +1,11 @@
-package com.example.easydialer.login
+package com.example.easydialer.ui
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.easydialer.data.local.OfflineDatabaseViewModel
-import com.example.easydialer.ui.MainActivity
+import com.example.easydialer.viewmodels.OfflineDatabaseViewModel
 import com.example.easydialer.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 

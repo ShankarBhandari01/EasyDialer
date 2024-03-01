@@ -1,47 +1,56 @@
 package com.example.easydialer.ui
 
-import android.content.Intent
+
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.easydialer.data.remote.DataModel
+import com.example.easydialer.R
 import com.example.easydialer.databinding.ActivityTeleDialerBinding
-import com.example.easydialer.login.LoginViewModel
+import com.example.easydialer.models.CampaignResponse
+import com.example.easydialer.ui.adaptor.CampaignAdaptor
 import com.example.easydialer.utils.ApiResultHandler
+import com.example.easydialer.viewmodels.CampaignViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class TelDialerActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityTeleDialerBinding.inflate(layoutInflater)
     }
-    private val mainViewModel by viewModels<LoginViewModel>()
+    private val campaignViewModel by viewModels<CampaignViewModel>()
+
+    @Inject
+    lateinit var campaignAdaptor: CampaignAdaptor
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-
-        binding.toolbar.back.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
+        with(binding) {
+            setContentView(root)
+            toolbar.back.setOnClickListener {
+                onBackPressedDispatcher.onBackPressed()
+            }
+            toolbar.title.text = "Select Campaign"
         }
 
-        binding.toolbar.title.text = "Select Campaign"
-
-        binding.first.setOnClickListener {
-            startActivity(Intent(this@TelDialerActivity, CampaginDetailsActivity::class.java))
-
-        }
         init()
-        getAgents()
+        getCampaign()
         observeProductData()
     }
 
 
     private fun init() {
         try {
-//            productListAdapter = ProductListAdapter()
-//            activityMainBinding.list.apply { adapter = productListAdapter }
-//            activityMainBinding.swipeRefreshLayout.setOnRefreshListener { getProducts() }
+            binding.list.apply { adapter = campaignAdaptor }
+            val animation: LayoutAnimationController = AnimationUtils.loadLayoutAnimation(
+                this@TelDialerActivity,
+                R.anim.layout_animation_fall_down
+            )
+            binding.list.layoutAnimation = animation
+            //binding.swipeRefreshLayout.setOnRefreshListener { getProducts() }
         } catch (e: Exception) {
             e.stackTrace
         }
@@ -49,14 +58,14 @@ class TelDialerActivity : AppCompatActivity() {
 
     private fun observeProductData() {
         try {
-            mainViewModel.response.observe(this) { response ->
-                val apiResultHandler = ApiResultHandler<List<DataModel>>(this@TelDialerActivity,
+            campaignViewModel.response.observe(this) { response ->
+                val apiResultHandler = ApiResultHandler<CampaignResponse>(this@TelDialerActivity,
                     onLoading = {
                         binding.progress.visibility = View.VISIBLE
                     },
                     onSuccess = { data ->
                         binding.progress.visibility = View.GONE
-//                        data?.Data?.marketList?.let { productListAdapter.setProducts(it) }
+                        data?.let { campaignAdaptor.setCampaign(it) }
 //                        binding.swipeRefreshLayout.isRefreshing = false
                     },
                     onFailure = {
@@ -69,9 +78,9 @@ class TelDialerActivity : AppCompatActivity() {
         }
     }
 
-    private fun getAgents() {
+    private fun getCampaign() {
         try {
-            mainViewModel.getAgents()
+            campaignViewModel.getCampaign()
         } catch (e: Exception) {
             e.stackTrace
         }

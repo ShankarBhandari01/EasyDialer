@@ -3,8 +3,10 @@ package com.example.easydialer.utils
 class Constants {
 
     companion object {
-        const val BASE_URL = "https://simplydialer.in/public/api/" //replace your base url here
-        const val AGENT = "agent"
+        /**
+         *
+         * Error Messages
+         */
         const val API_INTERNET_MESSAGE = "No Internet Connection"
         const val API_SOMETHING_WENT_WRONG_MESSAGE = "Something went wrong"
         const val API_FAILED_CODE = "2222"
@@ -12,13 +14,21 @@ class Constants {
         const val API_FAILURE_CODE = "5555"
         const val API_INTERNET_CODE = "1111"
 
-        const val API_CAMPAIGN = "/public/api/campaign"
-        const val API_KEY = ""
+
+        /**
+         * Offline Values Lists
+         * */
         const val USER_PREFERENCES = "USER_LOGIN"
-        const val USER_NAME = "USER_NAME"
         const val OFFLINE_DATABASE = "app_database"
         const val NOTE_TABLE = "NOTE_TABLE"
 
+        /**
+         * API Lists
+         */
+        const val BASE_URL = "https://simplydialer.in/public/api/" //replace your base url here
+        const val API_CAMPAIGN = "campaign"
+        const val API_KEY = ""
+        const val API_AGENT = "agent"
 
     }
 }

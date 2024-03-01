@@ -1,6 +1,6 @@
 package com.example.easydialer.di
 
-import com.example.easydialer.data.local.OfflineStoreRepository
+import com.example.easydialer.repository.OfflineStoreRepository
 import com.example.easydialer.data.local.OfflineStoreImpl
 import dagger.Binds
 import dagger.Module

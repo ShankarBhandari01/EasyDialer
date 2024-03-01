@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.example.easydialer.data.local.OfflineDatabaseViewModel
+import com.example.easydialer.viewmodels.OfflineDatabaseViewModel
 import com.example.easydialer.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
