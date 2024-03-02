@@ -14,7 +14,6 @@ import com.example.easydialer.ui.adaptor.CampaignAdaptor
 import com.example.easydialer.utils.ApiResultHandler
 import com.example.easydialer.viewmodels.CampaignViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -45,7 +44,7 @@ class TelDialerActivity : AppCompatActivity() {
     private fun init() {
         try {
             campaignAdaptor = CampaignAdaptor {
-                startActivity(CampaginDetailsActivity.getIntent(this, it))
+                startActivity(CampaignDetailsActivity.getIntent(this, it))
             }
             binding.list.apply { adapter = campaignAdaptor }
             val animation: LayoutAnimationController = AnimationUtils.loadLayoutAnimation(

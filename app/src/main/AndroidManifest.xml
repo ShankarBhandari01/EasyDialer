@@ -40,7 +40,7 @@
             android:exported="false"
             android:screenOrientation="fullSensor" />
         <activity
-            android:name=".ui.CampaginDetailsActivity"
+            android:name=".ui.CampaignDetailsActivity"
             android:exported="false"
             android:screenOrientation="fullSensor" />
         <activity

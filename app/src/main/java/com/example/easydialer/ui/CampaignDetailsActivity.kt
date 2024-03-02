@@ -9,7 +9,7 @@ import com.example.easydialer.models.CampaignResponseItem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CampaginDetailsActivity : AppCompatActivity() {
+class CampaignDetailsActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityCampaginDetailsBinding.inflate(layoutInflater)
@@ -19,7 +19,7 @@ class CampaginDetailsActivity : AppCompatActivity() {
         lateinit var campaign: CampaignResponseItem
         fun getIntent(context: Context, campaign: CampaignResponseItem): Intent {
             this.campaign = campaign
-            return Intent(context, CampaginDetailsActivity::class.java)
+            return Intent(context, CampaignDetailsActivity::class.java)
         }
     }
 
@@ -42,7 +42,7 @@ class CampaginDetailsActivity : AppCompatActivity() {
 
 
         binding.calling.setOnClickListener {
-            startActivity(Intent(this@CampaginDetailsActivity, FollowupActivity::class.java))
+            startActivity(Intent(this@CampaignDetailsActivity, FollowupActivity::class.java))
         }
 
 
