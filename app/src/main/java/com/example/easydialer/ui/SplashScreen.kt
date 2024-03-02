@@ -21,7 +21,7 @@ class SplashScreen : AppCompatActivity() {
         setContentView(binding.root)
 
         lifecycleScope.launch {
-            delay(2000)
+            delay(1000)
             startAnotherScreen()
         }
 

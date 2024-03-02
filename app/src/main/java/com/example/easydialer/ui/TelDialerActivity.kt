@@ -24,7 +24,7 @@ class TelDialerActivity : AppCompatActivity() {
     }
     private val campaignViewModel by viewModels<CampaignViewModel>()
 
-    @Inject
+
     lateinit var campaignAdaptor: CampaignAdaptor
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +38,15 @@ class TelDialerActivity : AppCompatActivity() {
 
         init()
         getCampaign()
-        observeProductData()
+        observer()
     }
 
 
     private fun init() {
         try {
+            campaignAdaptor = CampaignAdaptor {
+                startActivity(CampaginDetailsActivity.getIntent(this, it))
+            }
             binding.list.apply { adapter = campaignAdaptor }
             val animation: LayoutAnimationController = AnimationUtils.loadLayoutAnimation(
                 this@TelDialerActivity,
@@ -56,7 +59,7 @@ class TelDialerActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeProductData() {
+    private fun observer() {
         try {
             campaignViewModel.response.observe(this) { response ->
                 val apiResultHandler = ApiResultHandler<CampaignResponse>(this@TelDialerActivity,

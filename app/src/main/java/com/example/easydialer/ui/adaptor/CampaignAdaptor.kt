@@ -9,9 +9,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CampaignAdaptor @Inject constructor() :
+class CampaignAdaptor(private val onItemClick: (campaign: CampaignResponseItem) -> Unit) :
     RecyclerView.Adapter<CampaignAdaptor.MyHolder>() {
-    var campaignItemList: ArrayList<CampaignResponseItem> = ArrayList()
+    private var campaignItemList: ArrayList<CampaignResponseItem> = ArrayList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
         return MyHolder(
             RvCampaignListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -23,7 +23,7 @@ class CampaignAdaptor @Inject constructor() :
         val campaign = campaignItemList[position]
         holder.binding.campaign = campaign
         holder.binding.campaignCardView.setOnClickListener {
-
+            onItemClick(campaign)
         }
 
     }

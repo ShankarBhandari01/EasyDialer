@@ -4,7 +4,7 @@ import java.io.Serializable
 
 data class CampaignResponseItem(
     val created_at: String,
-    val description: String,
+    val description: String? = "N/A",
     val id: Int,
     val key: String,
     val mode: String,

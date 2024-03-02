@@ -32,6 +32,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lato_bold"
@@ -39,6 +40,7 @@
                 android:textSize="19sp" />
 
             <TextView
+                android:id="@+id/campaign_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -241,8 +243,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
         android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="50dp"
         android:orientation="horizontal">
 
         <Button
@@ -250,23 +252,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="@font/lato_bold"
-            android:textSize="18sp"
             android:layout_weight="1"
-            android:text="FollowUp" />
+            android:fontFamily="@font/lato_bold"
+            android:text="FollowUp"
+            android:textSize="18sp" />
 
 
         <Button
             android:id="@+id/close"
             android:layout_width="0dp"
-            android:fontFamily="@font/lato_bold"
-            android:textSize="18sp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:backgroundTint="@android:color/holo_red_dark"
             android:layout_marginStart="20dp"
             android:layout_weight="1"
-            android:text="Stop" />
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:fontFamily="@font/lato_bold"
+            android:text="Stop"
+            android:textSize="18sp" />
 
 
     </LinearLayout>
