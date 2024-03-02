@@ -24,7 +24,7 @@ class TelDialerActivity : AppCompatActivity() {
     private val campaignViewModel by viewModels<CampaignViewModel>()
 
 
-    lateinit var campaignAdaptor: CampaignAdaptor
+    private lateinit var campaignAdaptor: CampaignAdaptor
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         with(binding) {

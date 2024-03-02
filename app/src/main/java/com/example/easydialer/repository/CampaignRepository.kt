@@ -3,7 +3,6 @@ package com.example.easydialer.repository
 import android.content.Context
 import com.example.easydialer.data.remote.RemoteDataSource
 import com.example.easydialer.models.CampaignResponse
-import com.example.easydialer.models.DataModel
 import com.example.easydialer.utils.NetWorkResult
 import com.example.easydialer.utils.toResultFlow
 import dagger.hilt.android.scopes.ActivityRetainedScoped

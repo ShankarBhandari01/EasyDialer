@@ -25,7 +25,7 @@ class Constants {
         /**
          * API Lists
          */
-        const val BASE_URL = "https://simplydialer.in/public/api/" //replace your base url here
+        const val BASE_URL = "https://simplydialer.in/public/api/"
         const val API_CAMPAIGN = "campaign"
         const val API_KEY = ""
         const val API_AGENT = "agent"
