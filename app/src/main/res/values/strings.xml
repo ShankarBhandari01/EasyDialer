@@ -24,4 +24,5 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="enter_confirm_password">Enter Confirm Password</string>
     <string name="update_password">Update Password</string>
+    <string name="all_permission_req">Following Permissions are required to run properly</string>
 </resources>

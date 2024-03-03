@@ -20,7 +20,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_PHONE_CALL" />
+    <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />
 
 
     <application
@@ -71,8 +73,8 @@
 
         <service
             android:name=".service.EasyDialerService"
-            android:foregroundServiceType="phoneCall"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="phoneCall" />
     </application>
 
 </manifest>

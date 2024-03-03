@@ -27,4 +27,6 @@ class EasyDialerApplication : Application() {
             .errorActivity(DefaultErrorActivity::class.java)
             .apply()
     }
+
+
 }

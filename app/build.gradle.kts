@@ -69,9 +69,10 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-
+    //QuickPermissions-Kotlin
     implementation("com.github.quickpermissions:quickpermissions-kotlin:0.4.0")
-
+    //EasyPermissions-ktx
+    implementation ("com.vmadalin:easypermissions-ktx:1.0.0")
 
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
@@ -81,46 +82,38 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
     implementation("androidx.activity:activity-ktx:1.8.1")
-
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutine_version")
-
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation("com.squareup.retrofit2:converter-scalars:$retrofit_version")
-
     // Hilt dependencies
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
-
     // Hilt testing dependencies
     androidTestImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
-
     //Reflection
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.10")
-
     //SwipeRefreshlayout
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-
     //chuckerInterceptor
     debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
     releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.0.0")
-
     //dataStore
     implementation("androidx.datastore:datastore-preferences-core:1.0.0")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     // Timber
     implementation("com.jakewharton.timber:timber:5.0.1")
-
     //Room
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     //CustomActivityOnCrash
-    implementation ("cat.ereza:customactivityoncrash:2.4.0")
+    implementation("cat.ereza:customactivityoncrash:2.4.0")
+
 }
