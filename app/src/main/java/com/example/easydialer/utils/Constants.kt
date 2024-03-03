@@ -4,6 +4,14 @@ class Constants {
 
     companion object {
         /**
+         * Notification channel details
+         */
+        const val NOTIFICATION_CHANNEL_ID = "MyForegroundServiceChannel"
+        const val NOTIFICATION_ID = 1
+        const val REQUEST_CODE = 0x01;
+
+
+        /**
          *
          * Error Messages
          */

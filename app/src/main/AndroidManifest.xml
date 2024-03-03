@@ -15,9 +15,12 @@
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
 
     <application
@@ -65,6 +68,11 @@
             android:name=".ui.MainActivity"
             android:exported="false"
             android:screenOrientation="fullSensor" />
+
+        <service
+            android:name=".service.EasyDialerService"
+            android:foregroundServiceType="phoneCall"
+            android:exported="false" />
     </application>
 
 </manifest>
