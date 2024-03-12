@@ -6,6 +6,8 @@ import android.os.Build
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.O
 import android.os.Bundle
+import android.util.Log
+import android.util.Patterns
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.activity.viewModels
@@ -14,8 +16,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.easydialer.R
 import com.example.easydialer.viewmodels.OfflineDatabaseViewModel
 import com.example.easydialer.databinding.ActivityLoginBinding
+import com.example.easydialer.models.AgentList
+import com.example.easydialer.models.Login
+import com.example.easydialer.models.LoginResponse
 import com.example.easydialer.service.EasyDialerService
+import com.example.easydialer.utils.ApiResultHandler
 import com.example.easydialer.utils.Constants
+import com.example.easydialer.utils.SweetToast
+import com.example.easydialer.utils.Utils
+import com.example.easydialer.viewmodels.LoginViewModel
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
@@ -29,6 +38,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     private val dataStoreViewModel by viewModels<OfflineDatabaseViewModel>()
+    private val viewModel by viewModels<LoginViewModel>()
     lateinit var perms: Array<String>
     private val binding by lazy {
         ActivityLoginBinding.inflate(layoutInflater)
@@ -39,9 +49,7 @@ class LoginActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         setContentView(binding.root)
         checkPermissions()
         binding.login.setOnClickListener {
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-            startForegroundService()
-            finish()
+            login()
         }
         dataStoreViewModel.isFirstLaunch.observe(this) {
             it ?: return@observe
@@ -50,6 +58,52 @@ class LoginActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
             }
 
         }
+
+        observers()
+    }
+
+    private fun observers() {
+        viewModel.responseLogin.observe(this) { response ->
+            val apiResultHandler = ApiResultHandler<LoginResponse>(this,
+                onLoading = {
+                    Utils.showProgressDialog("Logging in, Please wait ", this)
+                },
+                onSuccess = {
+                    Utils.dismissProgressDialog()
+                    if(it?.status==true){
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        startForegroundService()
+                        finish()
+                    }else{
+                       // Utils.showAlertDialog(this,it?.message)
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        startForegroundService()
+                        finish()
+                    }
+                },
+                onFailure = {
+                    Utils.dismissProgressDialog()
+                })
+            apiResultHandler.handleApiResult(response)
+
+        }
+    }
+
+    private fun login() {
+        if (binding.username.text?.isBlank() == true) {
+            SweetToast.error(this, "Please Enter UserName ! ")
+            return
+        } else if (!Utils.isValidEmail(binding.username.text.toString())) {
+            SweetToast.error(this, "Please Enter valid UserName ! ")
+            return
+        } else if (binding.password.text?.isBlank() == true) {
+            SweetToast.error(this, "Please Enter Password ! ")
+            return
+        }
+
+        val login =
+            Login(binding.username.text.toString(), binding.password.text.toString(), "ADMIN")
+        viewModel.login(login)
     }
 
 

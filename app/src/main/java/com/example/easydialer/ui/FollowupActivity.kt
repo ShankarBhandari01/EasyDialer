@@ -20,7 +20,7 @@ import java.util.Locale
 
 @AndroidEntryPoint
 class FollowupActivity : AppCompatActivity() {
-    var currentIndex = 0
+    private var currentIndex = 0
     private val binding by lazy { ActivityFollowupBinding.inflate(layoutInflater) }
 
     companion object {
@@ -40,6 +40,7 @@ class FollowupActivity : AppCompatActivity() {
         with(binding) {
             toolbar.title.text = "Call FollowUp"
             binding.phone.setText(mobileList[currentIndex].mobile)
+            checkAutoCall()
 
             datetime.editText?.setText(getCurrentDateTimeWithAMPM())
 
@@ -70,6 +71,10 @@ class FollowupActivity : AppCompatActivity() {
                 handleNextNumber()
             }
         }
+
+    }
+
+    private fun checkAutoCall() {
 
     }
 

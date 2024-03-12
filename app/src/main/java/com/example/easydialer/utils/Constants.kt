@@ -40,5 +40,7 @@ class Constants {
         const val API_CAMPAIGN_AGENT = "campaign-agent/{id}"
         const val API_CAMPAIGN_DISPOSITION = "campaign-disposition/{id}"
         const val API_CAMPAIGN_MOBILE = "campaign-mobile/{id}"
+
+        const val API_LOGON ="login"
     }
 }
