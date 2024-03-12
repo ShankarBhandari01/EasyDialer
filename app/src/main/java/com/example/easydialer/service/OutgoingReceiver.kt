@@ -33,6 +33,7 @@ class OutgoingReceiver : BroadcastReceiver() {
                 }
             }
 
+
             if (!number.isNullOrEmpty() && number != "null") {
                 onCallStateChanged(context, state, number)
                 Timber.tag("TEST :").d("NUMBER =>$number");
