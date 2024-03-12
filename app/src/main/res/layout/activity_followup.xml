@@ -52,8 +52,8 @@
                 android:layout_gravity="center"
                 android:enabled="false"
                 android:fontFamily="@font/lato_bold"
-                android:text="+91 9876543210"
                 android:inputType="text"
+                android:text=""
                 android:textColorHint="@color/material_dynamic_primary10"
                 android:textSize="22sp" />
 
@@ -212,13 +212,13 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/datetime"
                     style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:hint="@string/next_followup_date"
                     app:boxCornerRadiusBottomEnd="10dp"
-                    android:id="@+id/datetime"
                     app:boxCornerRadiusBottomStart="10dp"
                     app:boxCornerRadiusTopEnd="10dp"
                     app:boxCornerRadiusTopStart="10dp"
@@ -296,28 +296,28 @@
 
 
         <Button
-            android:layout_width="0dp"
             android:id="@+id/callnow"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:textSize="17sp"
             android:backgroundTint="@android:color/holo_green_dark"
             android:fontFamily="@font/lato_bold"
-            android:text="@string/call_now" />
+            android:text="@string/call_now"
+            android:textSize="17sp" />
 
 
         <Button
-            android:layout_width="0dp"
             android:id="@+id/stopnext"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="17sp"
             android:layout_marginStart="15dp"
             android:layout_weight="1"
             android:backgroundTint="@android:color/holo_red_dark"
             android:fontFamily="@font/lato_bold"
-            android:text="@string/stop_amp_next" />
+            android:text="@string/stop_amp_next"
+            android:textSize="17sp" />
 
     </LinearLayout>
 

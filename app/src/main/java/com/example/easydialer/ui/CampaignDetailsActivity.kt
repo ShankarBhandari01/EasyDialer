@@ -4,8 +4,16 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.activity.viewModels
 import com.example.easydialer.databinding.ActivityCampaginDetailsBinding
+import com.example.easydialer.models.AgentList
+import com.example.easydialer.models.CampaignResponse
 import com.example.easydialer.models.CampaignResponseItem
+import com.example.easydialer.models.MobileList
+import com.example.easydialer.utils.ApiResultHandler
+import com.example.easydialer.utils.Utils
+import com.example.easydialer.viewmodels.CampaignViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -14,6 +22,7 @@ class CampaignDetailsActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityCampaginDetailsBinding.inflate(layoutInflater)
     }
+    private val viewModel by viewModels<CampaignViewModel>()
 
     companion object {
         lateinit var campaign: CampaignResponseItem
@@ -40,11 +49,60 @@ class CampaignDetailsActivity : AppCompatActivity() {
             }
         }
 
-
+        getCampaignDetails()
         binding.calling.setOnClickListener {
-            startActivity(Intent(this@CampaignDetailsActivity, FollowupActivity::class.java))
+            viewModel.getCampaignMobile(campaign.id)
+        }
+        observers()
+
+    }
+
+    private fun getCampaignDetails() {
+        viewModel.getCampaignAgent(campaign.id)
+        viewModel.getCampaignDisposition(campaign.id)
+    }
+
+    private fun observers() {
+        try {
+            viewModel.responseCampaignAgent.observe(this) { response ->
+                val apiResultHandler = ApiResultHandler<AgentList>(this,
+                    onLoading = {
+                        Utils.showProgressDialog("Loading Campaign Agent", this)
+                    },
+                    onSuccess = {
+                        Utils.dismissProgressDialog()
+                        binding.toolbar.title.text = it?.get(0)?.name
+
+                    },
+                    onFailure = {
+                        Utils.dismissProgressDialog()
+                    })
+                apiResultHandler.handleApiResult(response)
+            }
+        } catch (e: Exception) {
+            e.stackTrace
         }
 
-
+        try {
+            viewModel.responseCampaignMobile.observe(this) { response ->
+                val apiResultHandler = ApiResultHandler<MobileList>(this,
+                    onLoading = {
+                        Utils.showProgressDialog("Loading Campaign Mobile Numbers", this)
+                    },
+                    onSuccess = {
+                        Utils.dismissProgressDialog()
+                        startActivity(
+                            it?.let { it1 -> FollowupActivity.getIntent(this, it1) }
+                        )
+                    },
+                    onFailure = {
+                        Utils.dismissProgressDialog()
+                    }
+                )
+                apiResultHandler.handleApiResult(response)
+            }
+        } catch (e: Exception) {
+            e.stackTrace
+        }
     }
 }

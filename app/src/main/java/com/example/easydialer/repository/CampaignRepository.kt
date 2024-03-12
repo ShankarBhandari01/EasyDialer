@@ -2,7 +2,10 @@ package com.example.easydialer.repository
 
 import android.content.Context
 import com.example.easydialer.data.remote.RemoteDataSource
+import com.example.easydialer.models.AgentList
 import com.example.easydialer.models.CampaignResponse
+import com.example.easydialer.models.DispositionList
+import com.example.easydialer.models.MobileList
 import com.example.easydialer.utils.NetWorkResult
 import com.example.easydialer.utils.toResultFlow
 import dagger.hilt.android.scopes.ActivityRetainedScoped
@@ -14,6 +17,27 @@ class CampaignRepository @Inject constructor(private val remoteDataSource: Remot
     suspend fun getCampaign(context: Context): Flow<NetWorkResult<CampaignResponse>> {
         return toResultFlow(context) {
             remoteDataSource.getCampaign()
+        }
+    }
+
+    suspend fun getCampaignAgent(context: Context, id: Int): Flow<NetWorkResult<AgentList>> {
+        return toResultFlow(context) {
+            remoteDataSource.getCampaignAgent(id)
+        }
+    }
+
+    suspend fun getCampaignDisposition(
+        context: Context,
+        id: Int
+    ): Flow<NetWorkResult<DispositionList>> {
+        return toResultFlow(context) {
+            remoteDataSource.getCampaignDisposition(id)
+        }
+    }
+
+    suspend fun getCampaignMobile(context: Context, id: Int): Flow<NetWorkResult<MobileList>> {
+        return toResultFlow(context) {
+            remoteDataSource.getCampaignMobile(id)
         }
     }
 }

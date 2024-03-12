@@ -52,7 +52,6 @@ class TelDialerActivity : AppCompatActivity() {
                 R.anim.layout_animation_fall_down
             )
             binding.list.layoutAnimation = animation
-            //binding.swipeRefreshLayout.setOnRefreshListener { getProducts() }
         } catch (e: Exception) {
             e.stackTrace
         }
@@ -60,7 +59,7 @@ class TelDialerActivity : AppCompatActivity() {
 
     private fun observer() {
         try {
-            campaignViewModel.response.observe(this) { response ->
+            campaignViewModel.responseCampaign.observe(this) { response ->
                 val apiResultHandler = ApiResultHandler<CampaignResponse>(this@TelDialerActivity,
                     onLoading = {
                         binding.progress.visibility = View.VISIBLE
