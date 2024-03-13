@@ -137,7 +137,8 @@ class LoginActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.CALL_PHONE
+            Manifest.permission.CALL_PHONE,
+            Manifest.permission.READ_CALL_LOG
         )
         if (SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             perms = arrayOf(
@@ -152,7 +153,8 @@ class LoginActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
                 Manifest.permission.FOREGROUND_SERVICE,
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.CALL_PHONE,
-                Manifest.permission.MANAGE_OWN_CALLS
+                Manifest.permission.MANAGE_OWN_CALLS,
+                Manifest.permission.READ_CALL_LOG
             )
         }
         if (EasyPermissions.hasPermissions(this, *perms)) {

@@ -115,5 +115,7 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.1")
     //CustomActivityOnCrash
     implementation("cat.ereza:customactivityoncrash:2.4.0")
+    // joda time
+    implementation("net.danlew:android.joda:2.12.7")
 
 }
