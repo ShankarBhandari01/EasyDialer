@@ -54,6 +54,7 @@ android {
         viewBinding = true
         dataBinding = true
     }
+
 }
 
 dependencies {
@@ -119,3 +120,4 @@ dependencies {
     implementation("net.danlew:android.joda:2.12.7")
 
 }
+

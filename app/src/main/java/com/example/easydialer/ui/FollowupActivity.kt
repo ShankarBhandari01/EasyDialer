@@ -6,11 +6,11 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.easydialer.databinding.ActivityFollowupBinding
-import com.example.easydialer.models.CampaignResponseItem
 import com.example.easydialer.models.MobileList
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +23,7 @@ class FollowupActivity : AppCompatActivity() {
     private var currentIndex = 0
     private val binding by lazy { ActivityFollowupBinding.inflate(layoutInflater) }
 
+
     companion object {
         private lateinit var mobileList: MobileList
         fun getIntent(context: Context, mobileList: MobileList): Intent {
@@ -34,16 +35,13 @@ class FollowupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        binding.toolbar.back.setOnClickListener { onBackPressed() }
-
+        binding.toolbar.back.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+        checkAutoCall()
         with(binding) {
             toolbar.title.text = "Call FollowUp"
             binding.phone.setText(mobileList[currentIndex].mobile)
-            checkAutoCall()
-
+            checkCallType()
             datetime.editText?.setText(getCurrentDateTimeWithAMPM())
-
             datetime.setEndIconOnClickListener {
                 showDateTimePickerDialog()
             }
@@ -53,18 +51,7 @@ class FollowupActivity : AppCompatActivity() {
             }
 
             callnow.setOnClickListener {
-
-                runWithPermissions(Manifest.permission.CALL_PHONE) {
-                    val intent = Intent(
-                        Intent.ACTION_CALL,
-                        Uri.parse(
-                            "tel:" + binding.phone.text.toString().trim()
-                        )
-                    )
-
-                    startActivity(intent)
-                }
-                Toast.makeText(this@FollowupActivity, "Call starting...", Toast.LENGTH_SHORT).show()
+                startCall(binding.phone.text.toString())
             }
 
             stopnext.setOnClickListener {
@@ -74,8 +61,21 @@ class FollowupActivity : AppCompatActivity() {
 
     }
 
-    private fun checkAutoCall() {
+    private fun checkCallType() {
+        val dispositionList = CampaignDetailsActivity.dispositionList
+        if (dispositionList[0].type.equals("Scheduled", true)) {
+            binding.tvFollowup.visibility = View.VISIBLE
+            binding.mcvFollowupLayout.visibility = View.VISIBLE
+        }
+    }
 
+
+    private fun checkAutoCall() {
+        if (CampaignDetailsActivity.campaign.mode.equals("AUTO", true)) {
+            Toast.makeText(this, "Auto Call detected ", Toast.LENGTH_SHORT).show()
+            val number = mobileList.random().mobile
+            startCall(number)
+        }
     }
 
     private fun handleNextNumber() {
@@ -135,6 +135,18 @@ class FollowupActivity : AppCompatActivity() {
     private fun formatDateTime(calendar: Calendar): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.getDefault())
         return dateFormat.format(calendar.time)
+    }
+
+    private fun startCall(number: String) {
+        runWithPermissions(Manifest.permission.CALL_PHONE) {
+            val intent = Intent(
+                Intent.ACTION_CALL,
+                Uri.parse(
+                    "tel:" + number.trim()
+                )
+            )
+            startActivity(intent)
+        }
     }
 
 }

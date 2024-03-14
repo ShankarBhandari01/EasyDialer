@@ -10,6 +10,8 @@ import com.example.easydialer.databinding.ActivityCampaginDetailsBinding
 import com.example.easydialer.models.AgentList
 import com.example.easydialer.models.CampaignResponse
 import com.example.easydialer.models.CampaignResponseItem
+import com.example.easydialer.models.DispositionItem
+import com.example.easydialer.models.DispositionList
 import com.example.easydialer.models.MobileList
 import com.example.easydialer.utils.ApiResultHandler
 import com.example.easydialer.utils.Utils
@@ -25,6 +27,7 @@ class CampaignDetailsActivity : AppCompatActivity() {
     private val viewModel by viewModels<CampaignViewModel>()
 
     companion object {
+        lateinit var dispositionList: DispositionList
         lateinit var campaign: CampaignResponseItem
         fun getIntent(context: Context, campaign: CampaignResponseItem): Intent {
             this.campaign = campaign
@@ -97,6 +100,29 @@ class CampaignDetailsActivity : AppCompatActivity() {
                     },
                     onFailure = {
                         Utils.dismissProgressDialog()
+                    }
+                )
+                apiResultHandler.handleApiResult(response)
+            }
+        } catch (e: Exception) {
+            e.stackTrace
+        }
+
+
+        try {
+            viewModel.responseCampaignDisposition.observe(this) { response ->
+                val apiResultHandler = ApiResultHandler<DispositionList>(this,
+                    onLoading = {
+                        // Utils.showProgressDialog("Loading Campaign Mobile Numbers", this)
+                    },
+                    onSuccess = {
+                        // Utils.dismissProgressDialog()
+                        if (it != null) {
+                            dispositionList = it
+                        }
+                    },
+                    onFailure = {
+                        // Utils.dismissProgressDialog()
                     }
                 )
                 apiResultHandler.handleApiResult(response)

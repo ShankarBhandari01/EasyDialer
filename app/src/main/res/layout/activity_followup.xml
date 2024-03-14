@@ -183,6 +183,8 @@
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_followup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -194,6 +196,8 @@
             android:textSize="16sp" />
 
         <com.google.android.material.card.MaterialCardView
+            android:visibility="gone"
+            android:id="@+id/mcv_followup_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
