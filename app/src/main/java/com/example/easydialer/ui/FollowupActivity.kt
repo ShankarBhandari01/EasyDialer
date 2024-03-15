@@ -1,28 +1,46 @@
 package com.example.easydialer.ui
 
-import android.Manifest
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
+import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.easydialer.databinding.ActivityFollowupBinding
 import com.example.easydialer.models.MobileList
-import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
+import com.example.easydialer.models.MobileListItem
+import com.example.easydialer.utils.Utils
+import com.example.easydialer.utils.Utils.formatDateTime
+import com.example.easydialer.utils.Utils.getCurrentDateTimeWithAMPM
+import com.example.easydialer.utils.Utils.showDateTimePickerDialog
+import com.example.easydialer.utils.Utils.startCall
+import com.example.easydialer.viewmodels.CampaignViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import timber.log.Timber
 
 @AndroidEntryPoint
 class FollowupActivity : AppCompatActivity() {
     private var currentIndex = 0
     private val binding by lazy { ActivityFollowupBinding.inflate(layoutInflater) }
+    private val viewModel by viewModels<CampaignViewModel>()
 
+    private val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val callDurationMillis = intent?.getLongExtra("call_duration_millis", 0L)
+            selectedMobileListItem.status = 1
+            selectedMobileListItem.duration = Utils.formatDuration(callDurationMillis ?:0)
+            selectedMobileListItem.dialed_at = formatDateTime()
+
+            Timber.tag("Calling ${selectedMobileListItem.mobile}")
+                .e("Selected Mobile data $selectedMobileListItem")
+        }
+    }
+
+    private lateinit var selectedMobileListItem: MobileListItem
 
     companion object {
         private lateinit var mobileList: MobileList
@@ -36,14 +54,20 @@ class FollowupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.toolbar.back.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+        loadFollowUpStatus()
         checkAutoCall()
         with(binding) {
             toolbar.title.text = "Call FollowUp"
-            binding.phone.setText(mobileList[currentIndex].mobile)
+            selectedMobileListItem = mobileList[currentIndex] // current selected mobile
+
+            binding.phone.setText(selectedMobileListItem.mobile)
             checkCallType()
+
             datetime.editText?.setText(getCurrentDateTimeWithAMPM())
             datetime.setEndIconOnClickListener {
-                showDateTimePickerDialog()
+                showDateTimePickerDialog(this@FollowupActivity) { selectedDateTime ->
+                    binding.datetime.editText?.setText(selectedDateTime)
+                }
             }
 
             phoneLayout.setEndIconOnClickListener {
@@ -51,14 +75,33 @@ class FollowupActivity : AppCompatActivity() {
             }
 
             callnow.setOnClickListener {
-                startCall(binding.phone.text.toString())
+                startCall(binding.phone.text.toString(), this@FollowupActivity)
             }
 
             stopnext.setOnClickListener {
                 handleNextNumber()
             }
         }
+        setUpCallListener()
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(receiver)
+    }
+
+    private fun setUpCallListener() {
+        val filter = IntentFilter("${applicationContext.packageName}.CUSTOM_ACTION")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(receiver, filter, RECEIVER_EXPORTED)
+        }else {
+            registerReceiver(receiver, filter)
+        }
+
+    }
+
+    private fun loadFollowUpStatus() {
+        viewModel.getCallFollowUpStatus()
     }
 
     private fun checkCallType() {
@@ -74,7 +117,7 @@ class FollowupActivity : AppCompatActivity() {
         if (CampaignDetailsActivity.campaign.mode.equals("AUTO", true)) {
             Toast.makeText(this, "Auto Call detected ", Toast.LENGTH_SHORT).show()
             val number = mobileList.random().mobile
-            startCall(number)
+            startCall(number, this)
         }
     }
 
@@ -84,69 +127,8 @@ class FollowupActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Number is not available ", Toast.LENGTH_SHORT).show()
         }
-        binding.phone.setText(mobileList[currentIndex].mobile)
-    }
-
-    private fun getCurrentDateTimeWithAMPM(): String {
-        val calendar = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.getDefault())
-        return dateFormat.format(calendar.time)
-    }
-
-    private fun showDateTimePickerDialog() {
-        val calendar = Calendar.getInstance()
-
-        val datePickerDialog = DatePickerDialog(
-            this,
-            { _, year, month, dayOfMonth ->
-                calendar.set(Calendar.YEAR, year)
-                calendar.set(Calendar.MONTH, month)
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-                showTimePickerDialog(calendar)
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-
-        datePickerDialog.show()
-    }
-
-    private fun showTimePickerDialog(calendar: Calendar) {
-        val timePickerDialog = TimePickerDialog(
-            this,
-            { _, hourOfDay, minute ->
-                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                calendar.set(Calendar.MINUTE, minute)
-
-                val selectedDateTime = formatDateTime(calendar)
-                binding.datetime.editText?.setText(selectedDateTime)
-            },
-            calendar.get(Calendar.HOUR_OF_DAY),
-            calendar.get(Calendar.MINUTE),
-            false // 24-hour format
-        )
-
-        timePickerDialog.show()
-    }
-
-
-    private fun formatDateTime(calendar: Calendar): String {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.getDefault())
-        return dateFormat.format(calendar.time)
-    }
-
-    private fun startCall(number: String) {
-        runWithPermissions(Manifest.permission.CALL_PHONE) {
-            val intent = Intent(
-                Intent.ACTION_CALL,
-                Uri.parse(
-                    "tel:" + number.trim()
-                )
-            )
-            startActivity(intent)
-        }
+        selectedMobileListItem = mobileList[currentIndex]
+        binding.phone.setText(selectedMobileListItem.mobile)
     }
 
 }

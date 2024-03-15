@@ -68,5 +68,8 @@ class CampaignViewModel @Inject constructor(
         }
     }
 
+    fun getCallFollowUpStatus() {
+
+    }
 
 }

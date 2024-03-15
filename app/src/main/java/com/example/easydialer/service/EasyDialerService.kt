@@ -15,16 +15,22 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat.Builder
 import com.example.easydialer.R.drawable.voice_call
 import com.example.easydialer.ui.LoginActivity
+import com.example.easydialer.ui.MainActivity
 import com.example.easydialer.utils.Constants.Companion.NOTIFICATION_CHANNEL_ID
 import com.example.easydialer.utils.Constants.Companion.NOTIFICATION_ID
+import com.example.easydialer.utils.Utils.formatDuration
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class EasyDialerService : Service() {
     private lateinit var outgoingReceiver: OutgoingReceiver
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val notification: Notification = buildNotification(this)
+        val notification = buildNotification(this)
         startForeground(NOTIFICATION_ID, notification)
         outgoingReceiver = OutgoingReceiver()
         outgoingReceiver.start()
@@ -42,7 +48,7 @@ class EasyDialerService : Service() {
 
     private fun buildNotification(context: Context): Notification {
         createNotificationChannel(context)
-        val notificationIntent = Intent(context, LoginActivity::class.java)
+        val notificationIntent = Intent(context, MainActivity::class.java)
         val pendingIntent = getActivity(
             context,
             0,
@@ -71,4 +77,5 @@ class EasyDialerService : Service() {
             notificationManager.createNotificationChannel(channel)
         }
     }
+
 }

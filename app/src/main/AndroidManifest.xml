@@ -42,7 +42,7 @@
 
         <receiver
             android:name=".service.OutgoingReceiver"
-            android:exported="false"
+            android:exported="true"
             android:enabled="true"
             android:permission="android.permission.NEW_OUTGOING_CALL">
             <intent-filter>

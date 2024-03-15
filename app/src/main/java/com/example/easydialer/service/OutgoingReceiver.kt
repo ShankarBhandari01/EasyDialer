@@ -5,24 +5,22 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.provider.CallLog
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
-import java.util.Date
-
 
 class OutgoingReceiver : BroadcastReceiver() {
-    companion object {
-        private const val TAG = "PhoneStateReceiver"
-    }
-
     var context: Context? = null
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context == null || intent == null) return
-        val pscl = PhoneStateChangeListener(context)
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        val pscl = PhoneStateChangeListener { callDurationMillis ->
+            val broadcastIntent = Intent("${context.applicationContext.packageName}.CUSTOM_ACTION").apply {
+                putExtra("call_duration_millis", callDurationMillis)
+            }
+            context.sendBroadcast(broadcastIntent)
+        }
         tm.listen(pscl, PhoneStateListener.LISTEN_CALL_STATE)
     }
 
@@ -36,4 +34,3 @@ class OutgoingReceiver : BroadcastReceiver() {
     }
 
 }
-
