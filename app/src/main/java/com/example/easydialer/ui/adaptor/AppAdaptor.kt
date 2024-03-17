@@ -19,14 +19,14 @@ class AppAdaptor<T>(private val onItemClick: (T) -> Unit) :
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             CAMPAIGN_VIEW_TYPE_TYPE -> {
-                return CampaignViewHolder(
+                CampaignViewHolder(
                     RvCampaignListBinding.inflate(inflater, parent, false),
                     onItemClick
                 )
             }
 
             FOLLOW_UP_VIEW_TYPE_TYPE -> {
-                return FollowUpStatusHolder(
+                FollowUpStatusHolder(
                     RvFollowUpStatusBinding.inflate(inflater, parent, false),
                     onItemClick
                 )
