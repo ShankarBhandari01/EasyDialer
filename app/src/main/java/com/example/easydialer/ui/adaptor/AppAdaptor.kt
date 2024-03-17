@@ -9,9 +9,9 @@ import com.example.easydialer.models.CampaignResponseItem
 import com.example.easydialer.models.FollowUPStatus
 import com.example.easydialer.ui.adaptor.viewholders.CampaignViewHolder
 import com.example.easydialer.ui.adaptor.viewholders.FollowUpStatusHolder
-import javax.inject.Singleton
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 
-@Singleton
+@ActivityRetainedScoped // lifecycle is tired to activity lifecycle
 class AppAdaptor<T>(private val onItemClick: (T) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var dataList: ArrayList<T> = ArrayList()
