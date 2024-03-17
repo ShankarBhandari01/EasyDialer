@@ -73,7 +73,7 @@ dependencies {
     //QuickPermissions-Kotlin
     implementation("com.github.quickpermissions:quickpermissions-kotlin:0.4.0")
     //EasyPermissions-ktx
-    implementation ("com.vmadalin:easypermissions-ktx:1.0.0")
+    implementation("com.vmadalin:easypermissions-ktx:1.0.0")
 
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
@@ -118,6 +118,10 @@ dependencies {
     implementation("cat.ereza:customactivityoncrash:2.4.0")
     // joda time
     implementation("net.danlew:android.joda:2.12.7")
+    //sdp
+    implementation("com.intuit.sdp:sdp-android:1.1.0")
+    //ssp
+    implementation("com.intuit.ssp:ssp-android:1.1.0")
 
 }
 

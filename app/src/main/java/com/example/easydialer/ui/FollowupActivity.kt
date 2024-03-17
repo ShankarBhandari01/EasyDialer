@@ -7,12 +7,19 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.easydialer.R
 import com.example.easydialer.databinding.ActivityFollowupBinding
+import com.example.easydialer.models.CampaignResponseItem
+import com.example.easydialer.models.FollowUPStatus
+import com.example.easydialer.models.FollowUpStatusList
 import com.example.easydialer.models.MobileList
 import com.example.easydialer.models.MobileListItem
+import com.example.easydialer.ui.adaptor.AppAdaptor
 import com.example.easydialer.utils.Utils
 import com.example.easydialer.utils.Utils.formatDateTime
 import com.example.easydialer.utils.Utils.getCurrentDateTimeWithAMPM
@@ -27,14 +34,15 @@ class FollowupActivity : AppCompatActivity() {
     private var currentIndex = 0
     private val binding by lazy { ActivityFollowupBinding.inflate(layoutInflater) }
     private val viewModel by viewModels<CampaignViewModel>()
+    private lateinit var appAdaptor: AppAdaptor<FollowUPStatus>
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val callDurationMillis = intent?.getLongExtra("call_duration_millis", 0L)
             selectedMobileListItem.status = 1
-            selectedMobileListItem.duration = Utils.formatDuration(callDurationMillis ?:0)
+            selectedMobileListItem.dialed=1
+            selectedMobileListItem.duration = Utils.formatDuration(callDurationMillis ?: 0)
             selectedMobileListItem.dialed_at = formatDateTime()
-
             Timber.tag("Calling ${selectedMobileListItem.mobile}")
                 .e("Selected Mobile data $selectedMobileListItem")
         }
@@ -59,7 +67,7 @@ class FollowupActivity : AppCompatActivity() {
         with(binding) {
             toolbar.title.text = "Call FollowUp"
             selectedMobileListItem = mobileList[currentIndex] // current selected mobile
-
+            init()
             binding.phone.setText(selectedMobileListItem.mobile)
             checkCallType()
 
@@ -83,8 +91,29 @@ class FollowupActivity : AppCompatActivity() {
             }
         }
         setUpCallListener()
+
+        observes()
     }
 
+    private fun observes() {
+       appAdaptor.setData(ArrayList())
+    }
+
+    private fun init() {
+        try {
+            appAdaptor = AppAdaptor {
+
+            }
+            binding.list.apply { adapter = appAdaptor }
+            val animation: LayoutAnimationController = AnimationUtils.loadLayoutAnimation(
+                this,
+                R.anim.layout_animation_fall_down
+            )
+            binding.list.layoutAnimation = animation
+        } catch (e: Exception) {
+            e.stackTrace
+        }
+    }
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(receiver)
@@ -94,7 +123,7 @@ class FollowupActivity : AppCompatActivity() {
         val filter = IntentFilter("${applicationContext.packageName}.CUSTOM_ACTION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             registerReceiver(receiver, filter, RECEIVER_EXPORTED)
-        }else {
+        } else {
             registerReceiver(receiver, filter)
         }
 
@@ -116,8 +145,8 @@ class FollowupActivity : AppCompatActivity() {
     private fun checkAutoCall() {
         if (CampaignDetailsActivity.campaign.mode.equals("AUTO", true)) {
             Toast.makeText(this, "Auto Call detected ", Toast.LENGTH_SHORT).show()
-            val number = mobileList.random().mobile
-            startCall(number, this)
+            selectedMobileListItem = mobileList.random()
+            startCall(selectedMobileListItem.mobile, this)
         }
     }
 

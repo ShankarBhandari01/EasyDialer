@@ -10,7 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.easydialer.R
 import com.example.easydialer.databinding.ActivityTeleDialerBinding
 import com.example.easydialer.models.CampaignResponse
-import com.example.easydialer.ui.adaptor.CampaignAdaptor
+import com.example.easydialer.models.CampaignResponseItem
+import com.example.easydialer.ui.adaptor.AppAdaptor
 import com.example.easydialer.utils.ApiResultHandler
 import com.example.easydialer.viewmodels.CampaignViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +25,7 @@ class TelDialerActivity : AppCompatActivity() {
     private val campaignViewModel by viewModels<CampaignViewModel>()
 
 
-    private lateinit var campaignAdaptor: CampaignAdaptor
+    private lateinit var appAdaptor: AppAdaptor<CampaignResponseItem>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         with(binding) {
@@ -43,10 +44,10 @@ class TelDialerActivity : AppCompatActivity() {
 
     private fun init() {
         try {
-            campaignAdaptor = CampaignAdaptor {
+            appAdaptor = AppAdaptor {
                 startActivity(CampaignDetailsActivity.getIntent(this, it))
             }
-            binding.list.apply { adapter = campaignAdaptor }
+            binding.list.apply { adapter = appAdaptor }
             val animation: LayoutAnimationController = AnimationUtils.loadLayoutAnimation(
                 this@TelDialerActivity,
                 R.anim.layout_animation_fall_down
@@ -66,7 +67,7 @@ class TelDialerActivity : AppCompatActivity() {
                     },
                     onSuccess = { data ->
                         binding.progress.visibility = View.GONE
-                        data?.let { campaignAdaptor.setCampaign(it) }
+                        data?.let { appAdaptor.setData(it) }
 //                        binding.swipeRefreshLayout.isRefreshing = false
                     },
                     onFailure = {
