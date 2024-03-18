@@ -17,8 +17,12 @@ import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.view.ContentInfoCompat.Flags
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.easydialer.R
@@ -49,8 +53,11 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun startAnotherScreen() {
-        startActivity(Intent(this@SplashScreen, LoginActivity::class.java))
+        val intent = Intent(this@SplashScreen, LoginActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+        finish()
+        overridePendingTransition(android.R.anim.fade_out, android.R.anim.fade_in)
     }
-
 
 }

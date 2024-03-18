@@ -1,6 +1,8 @@
 package com.example.easydialer.ui
 
 import android.Manifest
+import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
@@ -10,6 +12,8 @@ import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -22,9 +26,17 @@ import com.example.easydialer.models.LoginResponse
 import com.example.easydialer.service.EasyDialerService
 import com.example.easydialer.utils.ApiResultHandler
 import com.example.easydialer.utils.Constants
+import com.example.easydialer.utils.InAppUpdate
 import com.example.easydialer.utils.SweetToast
 import com.example.easydialer.utils.Utils
 import com.example.easydialer.viewmodels.LoginViewModel
+import com.google.android.play.core.appupdate.AppUpdateInfo
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
@@ -40,14 +52,35 @@ class LoginActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     private val dataStoreViewModel by viewModels<OfflineDatabaseViewModel>()
     private val viewModel by viewModels<LoginViewModel>()
     lateinit var perms: Array<String>
+
+    private lateinit var inAppUpdate: InAppUpdate
     private val binding by lazy {
         ActivityLoginBinding.inflate(layoutInflater)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        inAppUpdate.onActivityResult(requestCode, resultCode, data)
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        inAppUpdate.onResume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        inAppUpdate.onDestroy()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         checkPermissions()
+        inAppUpdate = InAppUpdate(this)
+
+
         binding.login.setOnClickListener {
             login()
         }
@@ -70,12 +103,12 @@ class LoginActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
                 },
                 onSuccess = {
                     Utils.dismissProgressDialog()
-                    if(it?.status==true){
+                    if (it?.status == true) {
                         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                         startForegroundService()
                         finish()
-                    }else{
-                       // Utils.showAlertDialog(this,it?.message)
+                    } else {
+                        // Utils.showAlertDialog(this,it?.message)
                         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                         startForegroundService()
                         finish()

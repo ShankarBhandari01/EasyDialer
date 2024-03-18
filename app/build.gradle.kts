@@ -123,5 +123,8 @@ dependencies {
     //ssp
     implementation("com.intuit.ssp:ssp-android:1.1.0")
 
+    // library for Play In-App Update:
+    implementation("com.google.android.play:app-update-ktx:2.1.0")
+
 }
 

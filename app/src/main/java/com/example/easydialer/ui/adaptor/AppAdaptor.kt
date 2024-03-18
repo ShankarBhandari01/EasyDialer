@@ -12,8 +12,7 @@ import com.example.easydialer.ui.adaptor.viewholders.FollowUpStatusHolder
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 
 @ActivityRetainedScoped // lifecycle is tired to activity lifecycle
-class AppAdaptor<T>(private val onItemClick: (T) -> Unit) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AppAdaptor<T>(private val onItemClick: (T) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var dataList: ArrayList<T> = ArrayList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
