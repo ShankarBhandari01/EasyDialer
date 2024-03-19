@@ -97,8 +97,9 @@
                         android:layout_gravity="center"
                         android:orientation="vertical"
                         android:visibility="visible"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/rv_follow_up_status" />
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        tools:listitem="@layout/rv_follow_up_status"
+                        app:spanCount="2"/>
 
 
                 </LinearLayout>

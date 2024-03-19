@@ -14,6 +14,7 @@ import android.Manifest.permission.READ_MEDIA_IMAGES
 import android.Manifest.permission.READ_MEDIA_VIDEO
 import android.Manifest.permission.READ_PHONE_STATE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -36,6 +37,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
+@SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashScreen : AppCompatActivity() {
     private val binding by lazy { ActivitySplashScreenBinding.inflate(layoutInflater) }

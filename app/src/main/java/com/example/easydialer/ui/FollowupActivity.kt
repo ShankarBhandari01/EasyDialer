@@ -28,6 +28,7 @@ import com.example.easydialer.utils.Utils.startCall
 import com.example.easydialer.viewmodels.CampaignViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import java.util.ArrayList
 
 @AndroidEntryPoint
 class FollowupActivity : AppCompatActivity() {
@@ -40,7 +41,7 @@ class FollowupActivity : AppCompatActivity() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val callDurationMillis = intent?.getLongExtra("call_duration_millis", 0L)
             selectedMobileListItem.status = 1
-            selectedMobileListItem.dialed=1
+            selectedMobileListItem.dialed = 1
             selectedMobileListItem.duration = Utils.formatDuration(callDurationMillis ?: 0)
             selectedMobileListItem.dialed_at = formatDateTime()
             Timber.tag("Calling ${selectedMobileListItem.mobile}")
@@ -96,12 +97,18 @@ class FollowupActivity : AppCompatActivity() {
     }
 
     private fun observes() {
-       appAdaptor.setData(ArrayList())
+        var data = ArrayList<FollowUPStatus>()
+        data.add(FollowUPStatus("RNR"))
+        data.add(FollowUPStatus("BUSY"))
+        data.add(FollowUPStatus("Not Answer"))
+        data.add(FollowUPStatus("Not Available"))
+
+        appAdaptor.setData(data)
     }
 
     private fun init() {
         try {
-            appAdaptor = AppAdaptor {
+            appAdaptor = AppAdaptor(context = this@FollowupActivity) {
 
             }
             binding.list.apply { adapter = appAdaptor }
@@ -114,6 +121,7 @@ class FollowupActivity : AppCompatActivity() {
             e.stackTrace
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(receiver)

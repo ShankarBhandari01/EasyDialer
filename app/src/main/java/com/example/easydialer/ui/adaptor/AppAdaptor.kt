@@ -1,5 +1,6 @@
 package com.example.easydialer.ui.adaptor
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +13,8 @@ import com.example.easydialer.ui.adaptor.viewholders.FollowUpStatusHolder
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 
 @ActivityRetainedScoped // lifecycle is tired to activity lifecycle
-class AppAdaptor<T>(private val onItemClick: (T) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AppAdaptor<T>(var context: Context, private val onItemClick: (T) -> Unit) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var dataList: ArrayList<T> = ArrayList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -27,7 +29,8 @@ class AppAdaptor<T>(private val onItemClick: (T) -> Unit) : RecyclerView.Adapter
             FOLLOW_UP_VIEW_TYPE_TYPE -> {
                 FollowUpStatusHolder(
                     RvFollowUpStatusBinding.inflate(inflater, parent, false),
-                    onItemClick
+                    onItemClick,
+                    context
                 )
             }
 
@@ -48,7 +51,7 @@ class AppAdaptor<T>(private val onItemClick: (T) -> Unit) : RecyclerView.Adapter
         val data = dataList[position]
         when (holder) {
             is CampaignViewHolder<*> -> holder.bind(data as CampaignResponseItem)
-            is FollowUpStatusHolder<*> -> holder.bind(data as FollowUPStatus)
+            is FollowUpStatusHolder<*> -> holder.bind(data as FollowUPStatus, position)
         }
     }
 

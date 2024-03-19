@@ -20,9 +20,9 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:fontFamily="@font/lato_bold"
-            android:text="RNR" />
+            android:text="@{status.status}" />
 
-        <Button
+       <!-- <Button
             android:id="@+id/btn_right"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             android:layout_weight="1"
             android:backgroundTint="@android:color/holo_red_dark"
             android:fontFamily="@font/lato_bold"
-            android:text="Busy" />
+            android:text="Busy" />-->
 
     </LinearLayout>
 </layout>

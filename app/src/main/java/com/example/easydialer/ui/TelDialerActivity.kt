@@ -44,7 +44,7 @@ class TelDialerActivity : AppCompatActivity() {
 
     private fun init() {
         try {
-            appAdaptor = AppAdaptor {
+            appAdaptor = AppAdaptor(this) {
                 startActivity(CampaignDetailsActivity.getIntent(this, it))
             }
             binding.list.apply { adapter = appAdaptor }
