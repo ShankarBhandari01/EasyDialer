@@ -87,7 +87,8 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="false"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="fullSensor"
+            />
 
         <service
             android:name=".service.EasyDialerService"

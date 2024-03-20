@@ -23,9 +23,6 @@ class FollowUpStatusHolder<T>(
         binding.btnLeft.setOnClickListener {
             onItemClick(status as T)
         }
-//        binding.btnRight.setOnClickListener {
-//            onItemClick(status as T)
-//        }
     }
 
 }

@@ -29,6 +29,7 @@ import com.example.easydialer.viewmodels.CampaignViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.ArrayList
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FollowupActivity : AppCompatActivity() {

@@ -5,11 +5,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.easydialer.databinding.RvCampaignListBinding
+import com.example.easydialer.databinding.RvDashboardMenuBinding
 import com.example.easydialer.databinding.RvFollowUpStatusBinding
 import com.example.easydialer.models.CampaignResponseItem
+import com.example.easydialer.models.DashboardMenu
 import com.example.easydialer.models.FollowUPStatus
 import com.example.easydialer.ui.adaptor.viewholders.CampaignViewHolder
+import com.example.easydialer.ui.adaptor.viewholders.DashboardMenuHolder
 import com.example.easydialer.ui.adaptor.viewholders.FollowUpStatusHolder
+import com.example.easydialer.utils.Constants.Companion.CAMPAIGN_VIEW_TYPE_TYPE
+import com.example.easydialer.utils.Constants.Companion.DASHBOARD_MENU_VIEW_TYPE
+import com.example.easydialer.utils.Constants.Companion.FOLLOW_UP_VIEW_TYPE_TYPE
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 
 @ActivityRetainedScoped // lifecycle is tired to activity lifecycle
@@ -34,6 +40,13 @@ class AppAdaptor<T>(var context: Context, private val onItemClick: (T) -> Unit) 
                 )
             }
 
+            DASHBOARD_MENU_VIEW_TYPE -> {
+                DashboardMenuHolder(
+                    RvDashboardMenuBinding.inflate(inflater, parent, false),
+                    onItemClick
+                )
+            }
+
             else -> throw IllegalArgumentException("Invalid view type")
         }
 
@@ -43,6 +56,7 @@ class AppAdaptor<T>(var context: Context, private val onItemClick: (T) -> Unit) 
         return when (dataList[position]) {
             is CampaignResponseItem -> CAMPAIGN_VIEW_TYPE_TYPE
             is FollowUPStatus -> FOLLOW_UP_VIEW_TYPE_TYPE
+            is DashboardMenu -> DASHBOARD_MENU_VIEW_TYPE
             else -> throw IllegalArgumentException("Invalid data type")
         }
     }
@@ -52,6 +66,7 @@ class AppAdaptor<T>(var context: Context, private val onItemClick: (T) -> Unit) 
         when (holder) {
             is CampaignViewHolder<*> -> holder.bind(data as CampaignResponseItem)
             is FollowUpStatusHolder<*> -> holder.bind(data as FollowUPStatus, position)
+            is DashboardMenuHolder<*> -> holder.bind(data as DashboardMenu)
         }
     }
 
@@ -65,8 +80,4 @@ class AppAdaptor<T>(var context: Context, private val onItemClick: (T) -> Unit) 
     }
 
 
-    companion object {
-        private const val CAMPAIGN_VIEW_TYPE_TYPE = 0
-        private const val FOLLOW_UP_VIEW_TYPE_TYPE = 1
-    }
 }

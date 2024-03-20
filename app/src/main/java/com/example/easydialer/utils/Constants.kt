@@ -31,6 +31,13 @@ class Constants {
         const val NOTE_TABLE = "NOTE_TABLE"
 
         /**
+         * View types
+         * */
+        const val CAMPAIGN_VIEW_TYPE_TYPE = 0
+        const val FOLLOW_UP_VIEW_TYPE_TYPE = 1
+        const val DASHBOARD_MENU_VIEW_TYPE = 2
+
+        /**
          * API Lists
          */
         const val BASE_URL = "https://simplydialer.in/public/api/"
@@ -41,6 +48,6 @@ class Constants {
         const val API_CAMPAIGN_DISPOSITION = "campaign-disposition/{id}"
         const val API_CAMPAIGN_MOBILE = "campaign-mobile/{id}"
 
-        const val API_LOGON ="login"
+        const val API_LOGON = "login"
     }
 }
