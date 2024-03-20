@@ -2,7 +2,7 @@ package com.example.easydialer.models
 
 import com.google.gson.annotations.SerializedName
 
-data class DataModel(
+data class Agent(
     @SerializedName("id") var id: Int? = null,
     @SerializedName("name") var name: String? = null,
     @SerializedName("username") var username: String? = null,

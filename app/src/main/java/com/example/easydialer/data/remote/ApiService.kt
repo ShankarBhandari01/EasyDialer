@@ -3,7 +3,7 @@ package com.example.easydialer.data.remote
 
 import com.example.easydialer.models.AgentList
 import com.example.easydialer.models.CampaignResponse
-import com.example.easydialer.models.DataModel
+import com.example.easydialer.models.Agent
 import com.example.easydialer.models.DispositionList
 import com.example.easydialer.models.Login
 import com.example.easydialer.models.MobileList
@@ -23,7 +23,7 @@ import retrofit2.http.Path
 interface ApiService {
 
     @GET(API_AGENT)
-    suspend fun getAgents(): Response<List<DataModel>>
+    suspend fun getAgents(): Response<List<Agent>>
 
     @GET(API_CAMPAIGN)
     suspend fun getCAMPAIGN(): Response<CampaignResponse>

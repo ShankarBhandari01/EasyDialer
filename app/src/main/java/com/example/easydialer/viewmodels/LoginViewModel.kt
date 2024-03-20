@@ -1,12 +1,11 @@
 package com.example.easydialer.viewmodels
 
 import android.app.Application
-import android.database.sqlite.SQLiteBlobTooBigException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.easydialer.base.BaseViewModel
-import com.example.easydialer.models.DataModel
+import com.example.easydialer.models.Agent
 import com.example.easydialer.models.Login
 import com.example.easydialer.models.LoginResponse
 import com.example.easydialer.repository.LoginRepo
@@ -19,8 +18,8 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val repository: LoginRepo, application: Application
 ) : BaseViewModel(application) {
-    private val _response: MutableLiveData<NetWorkResult<List<DataModel>>> = MutableLiveData()
-    val response: LiveData<NetWorkResult<List<DataModel>>> = _response
+    private val _response: MutableLiveData<NetWorkResult<List<Agent>>> = MutableLiveData()
+    val response: LiveData<NetWorkResult<List<Agent>>> = _response
 
 
     private val _responseLogin: MutableLiveData<NetWorkResult<LoginResponse>> = MutableLiveData()
