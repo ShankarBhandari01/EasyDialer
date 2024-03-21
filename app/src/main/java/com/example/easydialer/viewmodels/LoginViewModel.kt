@@ -38,4 +38,9 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun updatePassword() {
+
+    }
+
+
 }

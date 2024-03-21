@@ -84,6 +84,9 @@ class LoginActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         binding.login.setOnClickListener {
             login()
         }
+        binding.forgotPassword.setOnClickListener {
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+        }
         dataStoreViewModel.isFirstLaunch.observe(this) {
             it ?: return@observe
             if (it) {
