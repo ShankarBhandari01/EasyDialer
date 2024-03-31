@@ -6,4 +6,4 @@ data class Login(
     val email: String,
     val password: String,
     val role: String
-):Serializable
+) : Serializable

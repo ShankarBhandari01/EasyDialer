@@ -20,8 +20,8 @@ import android.util.Patterns
 import com.example.easydialer.R.string.app_name
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import org.json.JSONException
-
 import org.json.JSONObject
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -29,13 +29,38 @@ import java.util.concurrent.TimeUnit
 
 
 object Utils {
+    fun getGreetingMessage():String{
+        val c = Calendar.getInstance()
+        val timeOfDay = c.get(Calendar.HOUR_OF_DAY)
+
+        return when (timeOfDay) {
+            in 0..11 -> "Good Morning"
+            in 12..15 -> "Good Afternoon"
+            in 16..20 -> "Good Evening"
+            in 21..23 -> "Good Night"
+            else -> "Hello"
+        }
+    }
+    // ICMP
+    fun isOnline(): Boolean {
+        val runtime = Runtime.getRuntime()
+        try {
+            val ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8")
+            val exitValue = ipProcess.waitFor()
+            return exitValue == 0
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
+        return false
+    }
 
     fun hasInternetConnection(context: Context?): Boolean {
         try {
-            if (context == null)
-                return false
-            val connectivityManager = context.getSystemService(CONNECTIVITY_SERVICE)
-                    as ConnectivityManager
+            if (context == null) return false
+            val connectivityManager =
+                context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
             val activeNetwork = connectivityManager.activeNetwork ?: return false
             val networkCapabilities =
                 connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false

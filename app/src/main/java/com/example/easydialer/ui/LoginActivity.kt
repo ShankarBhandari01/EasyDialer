@@ -58,6 +58,7 @@ class LoginActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         ActivityLoginBinding.inflate(layoutInflater)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         inAppUpdate.onActivityResult(requestCode, resultCode, data)
@@ -107,14 +108,11 @@ class LoginActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
                 onSuccess = {
                     Utils.dismissProgressDialog()
                     if (it?.status == true) {
-                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        startActivity(MainActivity.getIntent(this, it))
                         startForegroundService()
                         finish()
                     } else {
-                        // Utils.showAlertDialog(this,it?.message)
-                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                        startForegroundService()
-                        finish()
+                        Utils.showAlertDialog(this, it?.message)
                     }
                 },
                 onFailure = {
@@ -129,16 +127,13 @@ class LoginActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         if (binding.username.text?.isBlank() == true) {
             SweetToast.error(this, "Please Enter UserName ! ")
             return
-        } else if (!Utils.isValidEmail(binding.username.text.toString())) {
-            SweetToast.error(this, "Please Enter valid UserName ! ")
-            return
         } else if (binding.password.text?.isBlank() == true) {
             SweetToast.error(this, "Please Enter Password ! ")
             return
         }
 
         val login =
-            Login(binding.username.text.toString(), binding.password.text.toString(), "ADMIN")
+            Login(binding.username.text.toString(), binding.password.text.toString(), "AGENT")
         viewModel.login(login)
     }
 

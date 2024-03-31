@@ -1,276 +1,288 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.CampaignDetailsActivity">
+<layout>
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+    <data>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/compagin"
+        <variable
+            name="campaignSummary"
+            type="com.example.easydialer.models.CampaignSummary" />
+
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="10dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="10dp"
-        app:cardUseCompatPadding="true"
-        app:strokeColor="#EEE"
-        app:strokeWidth="1dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.CampaignDetailsActivity">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/compagin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="10dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="true"
+            app:strokeColor="#EEE"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_bold"
+                    android:text="@string/campagin_heading"
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/campaign_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="@string/campagin_description"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="20dp"
-            android:orientation="vertical">
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/heading"
-                android:layout_width="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/first"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/lato_bold"
-                android:text="@string/campagin_heading"
-                android:textSize="19sp" />
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true"
+                app:strokeColor="@android:color/holo_red_dark"
+                app:strokeWidth="2dp">
 
-            <TextView
-                android:id="@+id/campaign_desc"
-                android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/lato_bold"
+                        android:text="@{campaignSummary.summary.pending+``}"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="33sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/lato_bold"
+                        android:text="Pending"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/second"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:fontFamily="@font/lato_regular"
-                android:text="@string/campagin_description"
-                android:textSize="16sp" />
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true"
+                app:strokeColor="@android:color/holo_green_dark"
+                app:strokeWidth="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/lato_bold"
+                        android:text="@{campaignSummary.summary.contacted +``}"
+                        android:textColor="@android:color/holo_green_dark"
+                        android:textSize="33sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/lato_bold"
+                        android:text="Contacted"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 
-    </com.google.android.material.card.MaterialCardView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/first"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
-            app:cardUseCompatPadding="true"
-            app:strokeColor="@android:color/holo_red_dark"
-            app:strokeWidth="2dp">
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/third"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true"
+                app:strokeColor="@android:color/holo_blue_bright"
+                app:strokeWidth="2dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/lato_bold"
-                    android:text="99"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:textSize="33sp" />
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/lato_bold"
+                        android:text="@{campaignSummary.summary.scheduled+``}"
+                        android:textColor="@android:color/holo_blue_bright"
+                        android:textSize="33sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/lato_bold"
+                        android:text="Scheduled"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/four"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true"
+                app:strokeColor="@android:color/holo_purple"
+                app:strokeWidth="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/lato_bold"
-                    android:text="Pending"
-                    android:textSize="20sp" />
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/lato_bold"
+                        android:text="@{campaignSummary.summary.not_contacted+``}"
+                        android:textColor="@android:color/holo_purple"
+                        android:textSize="33sp" />
 
-        </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/lato_bold"
+                        android:gravity="center"
+                        android:text="Non Contacted"
+                        android:textSize="18sp" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/second"
-            android:layout_width="0dp"
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
-            app:cardUseCompatPadding="true"
-            app:strokeColor="@android:color/holo_green_dark"
-            app:strokeWidth="2dp">
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="50dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/calling"
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_bold"
+                android:gravity="center"
+                android:text="StartDial"
+                android:textSize="18sp" />
+
+
+            <Button
+                android:id="@+id/close"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:orientation="vertical">
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/holo_red_dark"
+                android:fontFamily="@font/lato_bold"
+                android:text="Stop"
+                android:textSize="18sp"
+                android:visibility="gone" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/lato_bold"
-                    android:text="99"
-                    android:textColor="@android:color/holo_green_dark"
-                    android:textSize="33sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/lato_bold"
-                    android:text="Contacted"
-                    android:textSize="20sp" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/third"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
-            app:cardUseCompatPadding="true"
-            app:strokeColor="@android:color/holo_blue_bright"
-            app:strokeWidth="2dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/lato_bold"
-                    android:text="99"
-                    android:textColor="@android:color/holo_blue_bright"
-                    android:textSize="33sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/lato_bold"
-                    android:text="Scheduled"
-                    android:textSize="20sp" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/four"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
-            app:cardUseCompatPadding="true"
-            app:strokeColor="@android:color/holo_purple"
-            app:strokeWidth="2dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/lato_bold"
-                    android:text="99"
-                    android:textColor="@android:color/holo_purple"
-                    android:textSize="33sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/lato_bold"
-                    android:gravity="center"
-                    android:text="Non Contacted"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="50dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/calling"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:fontFamily="@font/lato_bold"
-            android:text="FollowUp"
-            android:textSize="18sp" />
-
-
-        <Button
-            android:id="@+id/close"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_weight="1"
-            android:backgroundTint="@android:color/holo_red_dark"
-            android:fontFamily="@font/lato_bold"
-            android:text="Stop"
-            android:textSize="18sp" />
-
-
-    </LinearLayout>
-
-</LinearLayout>
+</layout>

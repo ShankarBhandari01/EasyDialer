@@ -8,8 +8,8 @@ import com.example.easydialer.databinding.RvCampaignListBinding
 import com.example.easydialer.databinding.RvDashboardMenuBinding
 import com.example.easydialer.databinding.RvFollowUpStatusBinding
 import com.example.easydialer.models.CampaignResponseItem
-import com.example.easydialer.models.DashboardMenu
 import com.example.easydialer.models.FollowUPStatus
+import com.example.easydialer.models.Menus
 import com.example.easydialer.ui.adaptor.viewholders.CampaignViewHolder
 import com.example.easydialer.ui.adaptor.viewholders.DashboardMenuHolder
 import com.example.easydialer.ui.adaptor.viewholders.FollowUpStatusHolder
@@ -56,7 +56,7 @@ class AppAdaptor<T>(var context: Context, private val onItemClick: (T) -> Unit) 
         return when (dataList[position]) {
             is CampaignResponseItem -> CAMPAIGN_VIEW_TYPE_TYPE
             is FollowUPStatus -> FOLLOW_UP_VIEW_TYPE_TYPE
-            is DashboardMenu -> DASHBOARD_MENU_VIEW_TYPE
+            is Menus -> DASHBOARD_MENU_VIEW_TYPE
             else -> throw IllegalArgumentException("Invalid data type")
         }
     }
@@ -66,7 +66,7 @@ class AppAdaptor<T>(var context: Context, private val onItemClick: (T) -> Unit) 
         when (holder) {
             is CampaignViewHolder<*> -> holder.bind(data as CampaignResponseItem)
             is FollowUpStatusHolder<*> -> holder.bind(data as FollowUPStatus, position)
-            is DashboardMenuHolder<*> -> holder.bind(data as DashboardMenu)
+            is DashboardMenuHolder<*> -> holder.bind(data as Menus)
         }
     }
 

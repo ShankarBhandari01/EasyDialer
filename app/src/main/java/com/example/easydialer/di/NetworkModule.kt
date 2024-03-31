@@ -39,7 +39,8 @@ object NetworkModule {
         loggingInterceptor: HttpLoggingInterceptor,
         @ApiInterceptorQualifier apiInterceptor: Interceptor
     ): OkHttpClient {
-        return OkHttpClient.Builder().addInterceptor(loggingInterceptor)
+        return OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
             .addInterceptor(apiInterceptor)
             .readTimeout(60, TimeUnit.SECONDS)
             .addInterceptor(chuckerInterceptor)
@@ -50,7 +51,8 @@ object NetworkModule {
     @ApiInterceptorQualifier
     @Singleton
     @Provides
-    fun providesApiKeyInterceptor(): Interceptor = ApiInterceptor()
+    fun providesApiKeyInterceptor(@ApplicationContext context: Context): Interceptor =
+        ApiInterceptor(context)
 
     @Singleton
     @Provides
@@ -61,8 +63,10 @@ object NetworkModule {
     fun provideRetrofit(
         okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory
     ): Retrofit {
-        return Retrofit.Builder().baseUrl(BASE_URL).client(okHttpClient)
-            .addConverterFactory(gsonConverterFactory).build()
+        return Retrofit.Builder().baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(gsonConverterFactory)
+            .build()
     }
 
     @Singleton

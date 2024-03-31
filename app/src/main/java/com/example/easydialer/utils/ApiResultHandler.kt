@@ -21,31 +21,10 @@ class ApiResultHandler<T>(private val context: Context,  private val onLoading: 
 
             ApiStatus.ERROR -> {
                 onFailure(result.data)
-                when (result.data?.getField<String>("ErrorCode") ?: "0") {
-                    API_FAILURE_CODE -> {
-                        Utils.showAlertDialog(context, result.message.toString())
-                    }
-                    API_INTERNET_CODE -> {
-                        //Show Internet Error
-                        Utils.showAlertDialog(context, API_INTERNET_MESSAGE)
-                    }
-                    else -> {
-                        //Something went wrong dialog
-                        Utils.showAlertDialog(context, API_SOMETHING_WENT_WRONG_MESSAGE)
-                    }
-                }
+                Utils.showAlertDialog(context, result.message)
             }
         }
     }
 
-    @Throws(IllegalAccessException::class, ClassCastException::class)
-    inline fun <reified T> Any.getField(fieldName: String): T? {
-        this::class.memberProperties.forEach { kCallable ->
-            if (fieldName == kCallable.name) {
-                return kCallable.getter.call(this) as T?
-            }
-        }
-        return null
-    }
 
 }

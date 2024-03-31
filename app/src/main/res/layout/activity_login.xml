@@ -78,7 +78,7 @@
                 android:fontFamily="@font/lato_regular"
                 android:hint="@string/enter_username"
                 android:inputType="text"
-                android:text="admin@gmail.com"
+                android:text="Shankarbhandari"
                 android:paddingStart="45dp"
                 android:textSize="18sp" />
 

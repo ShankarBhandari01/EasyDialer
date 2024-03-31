@@ -2,18 +2,16 @@ package com.example.easydialer.ui
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.example.easydialer.databinding.ActivityCampaginDetailsBinding
 import com.example.easydialer.models.AgentList
-import com.example.easydialer.models.CampaignResponse
 import com.example.easydialer.models.CampaignResponseItem
-import com.example.easydialer.models.DispositionItem
+import com.example.easydialer.models.CampaignSummary
 import com.example.easydialer.models.DispositionList
-import com.example.easydialer.models.MobileList
 import com.example.easydialer.utils.ApiResultHandler
+import com.example.easydialer.utils.SweetToast
 import com.example.easydialer.utils.Utils
 import com.example.easydialer.viewmodels.CampaignViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,7 +52,15 @@ class CampaignDetailsActivity : AppCompatActivity() {
 
         getCampaignDetails()
         binding.calling.setOnClickListener {
-            viewModel.getCampaignMobile(campaign.id)
+            if (binding.campaignSummary?.mobile_numbers?.isEmpty() == true) {
+                SweetToast.info(this, "No Contact List Detected")
+                return@setOnClickListener
+            }
+            startActivity(
+                FollowupActivity.getIntent(this, binding.campaignSummary?.mobile_numbers!!)
+            )
+
+
         }
         observers()
 
@@ -63,6 +69,7 @@ class CampaignDetailsActivity : AppCompatActivity() {
     private fun getCampaignDetails() {
         viewModel.getCampaignAgent(campaign.id)
         viewModel.getCampaignDisposition(campaign.id)
+        viewModel.getCampaignSummary(campaign.id)
     }
 
     private fun observers() {
@@ -74,8 +81,9 @@ class CampaignDetailsActivity : AppCompatActivity() {
                     },
                     onSuccess = {
                         Utils.dismissProgressDialog()
-                        binding.toolbar.title.text = it?.get(0)?.name
-
+                        if (it?.isNotEmpty() == true) {
+                            binding.toolbar.title.text = it[0].name
+                        }
                     },
                     onFailure = {
                         Utils.dismissProgressDialog()
@@ -85,29 +93,6 @@ class CampaignDetailsActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.stackTrace
         }
-
-        try {
-            viewModel.responseCampaignMobile.observe(this) { response ->
-                val apiResultHandler = ApiResultHandler<MobileList>(this,
-                    onLoading = {
-                        Utils.showProgressDialog("Loading Campaign Mobile Numbers", this)
-                    },
-                    onSuccess = {
-                        Utils.dismissProgressDialog()
-                        startActivity(
-                            it?.let { it1 -> FollowupActivity.getIntent(this, it1) }
-                        )
-                    },
-                    onFailure = {
-                        Utils.dismissProgressDialog()
-                    }
-                )
-                apiResultHandler.handleApiResult(response)
-            }
-        } catch (e: Exception) {
-            e.stackTrace
-        }
-
 
         try {
             viewModel.responseCampaignDisposition.observe(this) { response ->
@@ -130,5 +115,28 @@ class CampaignDetailsActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.stackTrace
         }
+
+
+        try {
+            viewModel.responseCampaignSummary.observe(this) { response ->
+                val apiResultHandler = ApiResultHandler<CampaignSummary>(this,
+                    onLoading = {
+                        Utils.showProgressDialog("Loading Campaign Summary", this)
+                    },
+                    onSuccess = {
+                        Utils.dismissProgressDialog()
+                        binding.campaignSummary = it
+                    },
+                    onFailure = {
+                        Utils.dismissProgressDialog()
+                    }
+                )
+                apiResultHandler.handleApiResult(response)
+
+            }
+        } catch (e: Exception) {
+            e.stackTrace
+        }
     }
+
 }

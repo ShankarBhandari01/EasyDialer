@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.easydialer.data.remote.RemoteDataSource
 import com.example.easydialer.models.AgentList
 import com.example.easydialer.models.CampaignResponse
+import com.example.easydialer.models.CampaignSummary
 import com.example.easydialer.models.DispositionList
 import com.example.easydialer.models.MobileList
 import com.example.easydialer.utils.NetWorkResult
@@ -38,6 +39,15 @@ class CampaignRepository @Inject constructor(private val remoteDataSource: Remot
     suspend fun getCampaignMobile(context: Context, id: Int): Flow<NetWorkResult<MobileList>> {
         return toResultFlow(context) {
             remoteDataSource.getCampaignMobile(id)
+        }
+    }
+
+    suspend fun getCampaignSummary(
+        context: Context,
+        id: Int
+    ): Flow<NetWorkResult<CampaignSummary>> {
+        return toResultFlow(context) {
+            remoteDataSource.getCampaignSummary(id)
         }
     }
 }

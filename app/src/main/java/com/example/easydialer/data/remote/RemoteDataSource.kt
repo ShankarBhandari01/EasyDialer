@@ -11,4 +11,5 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
     suspend fun getCampaignDisposition(id: Int) = apiService.getCampaignDisposition(id)
     suspend fun getCampaignMobile(id: Int) = apiService.getCampaignMobile(id)
     suspend fun login(login: Login) = apiService.login(login)
+    suspend fun getCampaignSummary(id: Int) = apiService.getCampaignInfoById(id)
 }

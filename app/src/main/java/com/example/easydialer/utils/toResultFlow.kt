@@ -5,6 +5,7 @@ import android.content.Context
 import com.example.easydialer.utils.Constants.Companion.API_FAILED_CODE
 import com.example.easydialer.utils.Constants.Companion.API_INTERNET_CODE
 import com.example.easydialer.utils.Constants.Companion.API_INTERNET_MESSAGE
+import com.example.easydialer.utils.Utils.isOnline
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -18,7 +19,7 @@ inline fun <reified T> toResultFlow(
     context: Context, crossinline call: suspend () -> Response<T>?
 ): Flow<NetWorkResult<T>> {
     return flow {
-        val isInternetConnected = Utils.hasInternetConnection(context)
+        val isInternetConnected = Utils.hasInternetConnection(context) && isOnline()
         if (isInternetConnected) {
             emit(NetWorkResult.Loading(true))
             val c = call()
@@ -29,16 +30,16 @@ inline fun <reified T> toResultFlow(
                             emit(NetWorkResult.Success(it))
                         }
                     } else {
-                        if(c.code()!=500){
+                        if (c.code() != 500) {
                             val model = setResponseStatus<T>(
                                 T::class.java.getDeclaredConstructor().newInstance(),
                                 response.code().toString(),
                                 response.message()
                             )
                             emit(NetWorkResult.Error(model, response.message()))
-                        }else{
+                        } else {
                             val model = setResponseStatus<T>(
-                               null,
+                                null,
                                 response.code().toString(),
                                 response.message()
                             )
@@ -48,21 +49,11 @@ inline fun <reified T> toResultFlow(
 
                     }
                 } catch (e: Exception) {
-                    val model = setResponseStatus<T>(
-                        T::class.java.getDeclaredConstructor().newInstance(),
-                        API_FAILED_CODE,
-                        e.message
-                    )
-                    emit(NetWorkResult.Error(model, e.toString()))
+                    emit(NetWorkResult.Error(null, e.message))
                 }
             }
         } else {
-            val model = setResponseStatus<T>(
-                T::class.java.getDeclaredConstructor().newInstance(),
-                API_INTERNET_CODE,
-                API_INTERNET_MESSAGE
-            )
-            emit(NetWorkResult.Error(model, API_INTERNET_MESSAGE))
+            emit(NetWorkResult.Error(null, API_INTERNET_MESSAGE))
         }
     }.flowOn(Dispatchers.IO)
 }

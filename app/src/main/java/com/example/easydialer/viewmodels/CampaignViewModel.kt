@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.easydialer.base.BaseViewModel
 import com.example.easydialer.models.AgentList
 import com.example.easydialer.models.CampaignResponse
+import com.example.easydialer.models.CampaignSummary
 import com.example.easydialer.models.DispositionList
 import com.example.easydialer.models.MobileList
 import com.example.easydialer.repository.CampaignRepository
@@ -40,6 +41,11 @@ class CampaignViewModel @Inject constructor(
 
     val responseCampaignMobile: LiveData<NetWorkResult<MobileList>> = _responseCampaignMobile
 
+    private val _responseCampaignSummary: MutableLiveData<NetWorkResult<CampaignSummary>> =
+        MutableLiveData()
+
+    val responseCampaignSummary:LiveData<NetWorkResult<CampaignSummary>> =_responseCampaignSummary
+
 
     fun getCampaign() {
         viewModelScope.launch {
@@ -50,8 +56,7 @@ class CampaignViewModel @Inject constructor(
 
     fun getCampaignAgent(id: Int) {
         viewModelScope.launch {
-            repository.getCampaignAgent(context, id)
-                .collect { _responseCampaignAgent.value = it }
+            repository.getCampaignAgent(context, id).collect { _responseCampaignAgent.value = it }
         }
     }
 
@@ -65,6 +70,14 @@ class CampaignViewModel @Inject constructor(
     fun getCampaignMobile(id: Int) {
         viewModelScope.launch {
             repository.getCampaignMobile(context, id).collect { _responseCampaignMobile.value = it }
+        }
+    }
+
+    fun getCampaignSummary(id: Int) {
+        viewModelScope.launch {
+            repository.getCampaignSummary(context, id).collect {
+                _responseCampaignSummary.value = it
+            }
         }
     }
 
