@@ -85,4 +85,8 @@ class CampaignViewModel @Inject constructor(
 
     }
 
+    fun updateCampaignMobile(){
+
+    }
+
 }

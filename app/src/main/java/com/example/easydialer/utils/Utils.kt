@@ -5,19 +5,29 @@ import android.R.drawable.ic_dialog_alert
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.app.ProgressDialog
+import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
 import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
 import android.net.NetworkCapabilities.TRANSPORT_WIFI
 import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import android.text.TextUtils
 import android.util.Patterns
+import android.view.LayoutInflater
+import android.view.Window
+import androidx.core.content.ContextCompat
+import com.example.easydialer.R
 import com.example.easydialer.R.string.app_name
+import com.example.easydialer.databinding.DialogProgressBinding
+import com.example.easydialer.models.MobileListItem
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import org.json.JSONException
 import org.json.JSONObject
@@ -29,18 +39,19 @@ import java.util.concurrent.TimeUnit
 
 
 object Utils {
-    fun getGreetingMessage():String{
+    fun getGreetingMessage(): String {
         val c = Calendar.getInstance()
         val timeOfDay = c.get(Calendar.HOUR_OF_DAY)
 
         return when (timeOfDay) {
             in 0..11 -> "Good Morning"
             in 12..15 -> "Good Afternoon"
-            in 16..20 -> "Good Evening"
-            in 21..23 -> "Good Night"
+            in 16..19 -> "Good Evening"
+            in 20..23 -> "Good Night"
             else -> "Hello"
         }
     }
+
     // ICMP
     fun isOnline(): Boolean {
         val runtime = Runtime.getRuntime()
@@ -93,23 +104,26 @@ object Utils {
         }
     }
 
-    private var progressDialog: ProgressDialog? = null
-    fun showProgressDialog(message: String?, context: Context?) {
-        if (context != null && context !is Activity) {
+    private var progressDialog: Dialog? = null
+    fun showProgressDialog(message: String?, context: Context) {
+        if (context !is Activity) {
             return
         }
-        if (context != null) {
-            val activity = context as Activity
-            if (activity.isFinishing || activity.isDestroyed) {
-                return
-            }
+        if (context.isFinishing || context.isDestroyed) {
+            return
         }
         if (progressDialog != null && progressDialog?.isShowing == true) {
             progressDialog?.dismiss()
             progressDialog = null
         }
-        progressDialog = ProgressDialog(context)
-        progressDialog?.setMessage(message)
+        progressDialog = Dialog(context)
+        val bind = DialogProgressBinding.inflate(LayoutInflater.from(context))
+        bind.root.background = ContextCompat.getDrawable(context, R.drawable.rounded_corner)
+        progressDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        progressDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        progressDialog?.setContentView(bind.root)
+        bind.animationView.playAnimation()
+        bind.message.text = message
         progressDialog?.setCancelable(false)
         progressDialog?.show()
     }
@@ -124,11 +138,11 @@ object Utils {
         }
     }
 
-    fun setDialogMessage(message: String?) {
-        if (progressDialog != null) {
-            progressDialog!!.setMessage(message)
-        }
-    }
+//    fun setDialogMessage(message: String?) {
+//        if (progressDialog != null) {
+//            progressDialog
+//        }
+//    }
 
     fun isValidEmail(target: CharSequence): Boolean {
         return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
@@ -196,14 +210,17 @@ object Utils {
         return dateFormat.format(calendar.time)
     }
 
-    fun startCall(number: String, context: Context) {
+    fun startCall(number: MobileListItem, context: Context) {
         context.runWithPermissions(Manifest.permission.CALL_PHONE) {
+            val mobile = "${number.mobile}".trim()
             val intent = Intent(
                 Intent.ACTION_CALL,
                 Uri.parse(
-                    "tel:" + number.trim()
+                    "tel:$mobile"
                 )
             )
+
+            intent.putExtra("mobile", number)
             context.startActivity(intent)
         }
     }
@@ -213,5 +230,12 @@ object Utils {
         val minutes = TimeUnit.MILLISECONDS.toMinutes(durationMillis) % 60
         val seconds = TimeUnit.MILLISECONDS.toSeconds(durationMillis) % 60
         return String.format("%02d:%02d:%02d", hours, minutes, seconds)
+    }
+
+    fun checkDrawOverlayPermission(context: Context?): Boolean {
+        /** check if we already  have permission to draw over other apps  */
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Settings.canDrawOverlays(context)
+        } else true
     }
 }

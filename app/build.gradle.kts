@@ -58,13 +58,17 @@ android {
 }
 
 dependencies {
+    implementation("androidx.activity:activity:1.8.0")
     val hiltVersion = rootProject.extra["hiltVersion"]
     val coroutine_version = "1.7.3"
     val lifecycle_version = "2.6.2"
     val retrofit_version = "2.9.0"
+    val lottieVersion = "3.4.0"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation ("com.android.support:support-v4:28.0.0")
+    implementation( "com.android.support:design:28.0.0")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation("junit:junit:4.13.2")
@@ -82,6 +86,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+
     implementation("androidx.activity:activity-ktx:1.8.1")
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version")
@@ -113,6 +118,7 @@ dependencies {
     //Room
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
+
     kapt("androidx.room:room-compiler:2.6.1")
     //CustomActivityOnCrash
     implementation("cat.ereza:customactivityoncrash:2.4.0")
@@ -125,6 +131,10 @@ dependencies {
 
     // library for Play In-App Update:
     implementation("com.google.android.play:app-update-ktx:2.1.0")
+
+    //lottie animation
+    implementation("com.airbnb.android:lottie:$lottieVersion")
+
 
 }
 

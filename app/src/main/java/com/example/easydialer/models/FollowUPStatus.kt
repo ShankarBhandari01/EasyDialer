@@ -1,5 +1,10 @@
 package com.example.easydialer.models
 
-data class FollowUPStatus (
-    var status :String
-)
+import java.io.Serializable
+
+data class FollowUPStatus(
+    var name: String,
+    var campaign_id: Int,
+    var type: String,
+    var status: Int
+) : Serializable

@@ -10,13 +10,15 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
+
     <ScrollView
-        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@id/footer"
         android:layout_below="@id/toolbar"
-        android:fillViewport="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_centerHorizontal="true"
+        android:fillViewport="true">
+
         <LinearLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
@@ -62,49 +64,97 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/ll_followup_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/lato_bold"
-                android:includeFontPadding="false"
-                android:text="@string/followup_status"
-                android:textSize="16sp" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="5dp"
-                app:cardCornerRadius="10dp"
-                app:strokeColor="@color/material_dynamic_secondary60"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="15dp"
-                    android:orientation="vertical">
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/lato_bold"
+                    android:includeFontPadding="false"
+                    android:text="@string/followup_status"
+                    android:textSize="16sp" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/list"
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="5dp"
+                    app:cardCornerRadius="10dp"
+                    app:strokeColor="@color/material_dynamic_secondary60"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_180sdp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="visible"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        tools:listitem="@layout/rv_follow_up_status"
-                        app:spanCount="2"/>
+                        android:layout_margin="15dp"
+                        android:orientation="vertical">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/list"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_180sdp"
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:visibility="visible"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:spanCount="2"
+                            tools:listitem="@layout/rv_follow_up_status" />
 
 
-                </LinearLayout>
+                    </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_customer_details_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/lato_bold"
+                    android:includeFontPadding="false"
+                    android:text="Customer Details"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="5dp"
+                    app:cardCornerRadius="10dp"
+                    app:strokeColor="@color/material_dynamic_secondary60"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="15dp"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tv_followup"
@@ -210,8 +260,6 @@
 
         </LinearLayout>
     </ScrollView>
-
-
 
 
     <LinearLayout

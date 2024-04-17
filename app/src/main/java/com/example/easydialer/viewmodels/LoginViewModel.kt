@@ -16,8 +16,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val repository: LoginRepo, application: Application
-) : BaseViewModel(application) {
+    private val repository: LoginRepo,
+    application: Application
+): BaseViewModel(application) {
     private val _response: MutableLiveData<NetWorkResult<List<Agent>>> = MutableLiveData()
     val response: LiveData<NetWorkResult<List<Agent>>> = _response
 

@@ -27,6 +27,7 @@ class CampaignDetailsActivity : AppCompatActivity() {
     companion object {
         lateinit var dispositionList: DispositionList
         lateinit var campaign: CampaignResponseItem
+        lateinit var campaignSummary: CampaignSummary
         fun getIntent(context: Context, campaign: CampaignResponseItem): Intent {
             this.campaign = campaign
             return Intent(context, CampaignDetailsActivity::class.java)
@@ -125,6 +126,9 @@ class CampaignDetailsActivity : AppCompatActivity() {
                     },
                     onSuccess = {
                         Utils.dismissProgressDialog()
+                        if (it != null) {
+                            campaignSummary = it
+                        }
                         binding.campaignSummary = it
                     },
                     onFailure = {
@@ -139,4 +143,8 @@ class CampaignDetailsActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getCampaignSummary(campaign.id)
+    }
 }

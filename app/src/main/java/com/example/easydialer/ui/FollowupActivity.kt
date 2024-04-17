@@ -14,9 +14,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.easydialer.R
 import com.example.easydialer.databinding.ActivityFollowupBinding
-import com.example.easydialer.models.CampaignResponseItem
 import com.example.easydialer.models.FollowUPStatus
-import com.example.easydialer.models.FollowUpStatusList
 import com.example.easydialer.models.MobileList
 import com.example.easydialer.models.MobileListItem
 import com.example.easydialer.ui.adaptor.AppAdaptor
@@ -28,8 +26,6 @@ import com.example.easydialer.utils.Utils.startCall
 import com.example.easydialer.viewmodels.CampaignViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import java.util.ArrayList
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class FollowupActivity : AppCompatActivity() {
@@ -47,12 +43,14 @@ class FollowupActivity : AppCompatActivity() {
             selectedMobileListItem.dialed_at = formatDateTime()
             Timber.tag("Calling ${selectedMobileListItem.mobile}")
                 .e("Selected Mobile data $selectedMobileListItem")
+            binding.llFollowupLayout.visibility = View.VISIBLE
         }
     }
 
-    private lateinit var selectedMobileListItem: MobileListItem
 
     companion object {
+        lateinit var selectedMobileListItem: MobileListItem
+
         private lateinit var mobileList: MobileList
         fun getIntent(context: Context, mobileList: MobileList): Intent {
             this.mobileList = mobileList
@@ -70,10 +68,12 @@ class FollowupActivity : AppCompatActivity() {
             toolbar.title.text = "Call FollowUp"
             selectedMobileListItem = mobileList[currentIndex] // current selected mobile
             init()
-            binding.phone.setText(selectedMobileListItem.mobile)
+            binding.phone.setText(selectedMobileListItem.mobile.trim())
             checkCallType()
+            loadDispositionStatus()
 
             datetime.editText?.setText(getCurrentDateTimeWithAMPM())
+
             datetime.setEndIconOnClickListener {
                 showDateTimePickerDialog(this@FollowupActivity) { selectedDateTime ->
                     binding.datetime.editText?.setText(selectedDateTime)
@@ -85,7 +85,7 @@ class FollowupActivity : AppCompatActivity() {
             }
 
             callnow.setOnClickListener {
-                startCall(binding.phone.text.toString(), this@FollowupActivity)
+                startCall(selectedMobileListItem, this@FollowupActivity)
             }
 
             stopnext.setOnClickListener {
@@ -94,23 +94,18 @@ class FollowupActivity : AppCompatActivity() {
         }
         setUpCallListener()
 
-        observes()
     }
 
-    private fun observes() {
-        var data = ArrayList<FollowUPStatus>()
-        data.add(FollowUPStatus("RNR"))
-        data.add(FollowUPStatus("BUSY"))
-        data.add(FollowUPStatus("Not Answer"))
-        data.add(FollowUPStatus("Not Available"))
-
-        appAdaptor.setData(data)
+    private fun loadDispositionStatus() {
+        if (CampaignDetailsActivity.campaignSummary.disposition.isNotEmpty()) {
+            appAdaptor.setData(CampaignDetailsActivity.campaignSummary.disposition)
+        }
     }
 
     private fun init() {
         try {
             appAdaptor = AppAdaptor(context = this@FollowupActivity) {
-
+                viewModel.updateCampaignMobile()
             }
             binding.list.apply { adapter = appAdaptor }
             val animation: LayoutAnimationController = AnimationUtils.loadLayoutAnimation(
@@ -144,9 +139,11 @@ class FollowupActivity : AppCompatActivity() {
 
     private fun checkCallType() {
         val dispositionList = CampaignDetailsActivity.dispositionList
-        if (dispositionList[0].type.equals("Scheduled", true)) {
-            binding.tvFollowup.visibility = View.VISIBLE
-            binding.mcvFollowupLayout.visibility = View.VISIBLE
+        if (dispositionList.isNotEmpty()) {
+            if (dispositionList[0].type.equals("Scheduled", true)) {
+                binding.tvFollowup.visibility = View.VISIBLE
+                binding.mcvFollowupLayout.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -155,7 +152,7 @@ class FollowupActivity : AppCompatActivity() {
         if (CampaignDetailsActivity.campaign.mode.equals("AUTO", true)) {
             Toast.makeText(this, "Auto Call detected ", Toast.LENGTH_SHORT).show()
             selectedMobileListItem = mobileList.random()
-            startCall(selectedMobileListItem.mobile, this)
+            startCall(selectedMobileListItem, this)
         }
     }
 

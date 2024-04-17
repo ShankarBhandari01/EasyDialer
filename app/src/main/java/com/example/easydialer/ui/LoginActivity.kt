@@ -1,26 +1,19 @@
 package com.example.easydialer.ui
 
 import android.Manifest
-import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.O
 import android.os.Bundle
-import android.util.Log
-import android.util.Patterns
+import android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.easydialer.R
-import com.example.easydialer.viewmodels.OfflineDatabaseViewModel
 import com.example.easydialer.databinding.ActivityLoginBinding
-import com.example.easydialer.models.AgentList
 import com.example.easydialer.models.Login
 import com.example.easydialer.models.LoginResponse
 import com.example.easydialer.service.EasyDialerService
@@ -29,23 +22,16 @@ import com.example.easydialer.utils.Constants
 import com.example.easydialer.utils.InAppUpdate
 import com.example.easydialer.utils.SweetToast
 import com.example.easydialer.utils.Utils
+import com.example.easydialer.utils.Utils.checkDrawOverlayPermission
 import com.example.easydialer.viewmodels.LoginViewModel
-import com.google.android.play.core.appupdate.AppUpdateInfo
-import com.google.android.play.core.appupdate.AppUpdateManager
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.InstallStateUpdatedListener
-import com.google.android.play.core.install.model.AppUpdateType
-import com.google.android.play.core.install.model.InstallStatus
-import com.google.android.play.core.install.model.UpdateAvailability
-import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
+import com.example.easydialer.viewmodels.OfflineDatabaseViewModel
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
@@ -79,6 +65,16 @@ class LoginActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         checkPermissions()
+
+        if (!checkDrawOverlayPermission(this)) {
+            val intent = Intent(
+                ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:" + this.packageName)
+            )
+            startActivity(intent)
+        }
+
+
         inAppUpdate = InAppUpdate(this)
 
 
@@ -169,7 +165,8 @@ class LoginActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.CALL_PHONE,
-            Manifest.permission.READ_CALL_LOG
+            Manifest.permission.READ_CALL_LOG,
+            ACTION_MANAGE_OVERLAY_PERMISSION
         )
         if (SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             perms = arrayOf(
@@ -185,7 +182,9 @@ class LoginActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.CALL_PHONE,
                 Manifest.permission.MANAGE_OWN_CALLS,
-                Manifest.permission.READ_CALL_LOG
+                Manifest.permission.READ_CALL_LOG,
+                ACTION_MANAGE_OVERLAY_PERMISSION
+
             )
         }
         if (EasyPermissions.hasPermissions(this, *perms)) {

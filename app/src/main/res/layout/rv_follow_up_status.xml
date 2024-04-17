@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:fontFamily="@font/lato_bold"
-            android:text="@{status.status}" />
+            android:text="@{status.name}" />
 
        <!-- <Button
             android:id="@+id/btn_right"

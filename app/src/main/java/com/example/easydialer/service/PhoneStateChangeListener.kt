@@ -1,14 +1,22 @@
 package com.example.easydialer.service
 
+import android.content.Context
+import android.content.Intent
 import android.os.SystemClock
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
+import com.example.easydialer.ui.dialogbox.OverlayDialog
 
 
-class PhoneStateChangeListener(var onCallStatusChanged: (Long) -> Unit) : PhoneStateListener() {
+class PhoneStateChangeListener(
+    var context: Context,
+    var intent: Intent,
+    var onCallStatusChanged: (Long) -> Unit
+) :
+    PhoneStateListener() {
+    lateinit var dialog: OverlayDialog
     private var callStartTime: Long = 0
-    override fun onCallStateChanged(state: Int, phoneNumber: String?) {
-        super.onCallStateChanged(state, phoneNumber)
+    override fun onCallStateChanged(state: Int, phoneNumber: String) {
         when (state) {
             TelephonyManager.CALL_STATE_IDLE -> {
                 // Call ended or idle
@@ -16,8 +24,12 @@ class PhoneStateChangeListener(var onCallStatusChanged: (Long) -> Unit) : PhoneS
                     val callDurationMillis = SystemClock.elapsedRealtime() - callStartTime
                     onCallStatusChanged(callDurationMillis)
                     callStartTime = 0
+                    if (::dialog.isInitialized)
+                        dialog.hide()
+
                 }
             }
+
             TelephonyManager.CALL_STATE_RINGING -> {
                 // Incoming call
             }
@@ -25,7 +37,18 @@ class PhoneStateChangeListener(var onCallStatusChanged: (Long) -> Unit) : PhoneS
             TelephonyManager.CALL_STATE_OFFHOOK -> {
                 // Call in progress
                 callStartTime = SystemClock.elapsedRealtime()
+                val extras = intent.extras
+                if (extras != null) {
+                    val incomingNumber = extras.getString("incoming_number")
+                    dialog = OverlayDialog(context.applicationContext, incomingNumber)
+                    dialog.show()
+
+                }
+
+
             }
         }
+        super.onCallStateChanged(state, phoneNumber)
+
     }
 }
