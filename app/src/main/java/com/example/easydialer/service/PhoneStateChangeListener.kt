@@ -38,14 +38,11 @@ class PhoneStateChangeListener(
                 // Call in progress
                 callStartTime = SystemClock.elapsedRealtime()
                 val extras = intent.extras
-                if (extras != null) {
+                if (extras != null && (::dialog.isInitialized)) {
                     val incomingNumber = extras.getString("incoming_number")
                     dialog = OverlayDialog(context.applicationContext, incomingNumber)
                     dialog.show()
-
                 }
-
-
             }
         }
         super.onCallStateChanged(state, phoneNumber)
