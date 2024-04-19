@@ -50,7 +50,6 @@ class FollowupActivity : AppCompatActivity() {
 
     companion object {
         lateinit var selectedMobileListItem: MobileListItem
-
         private lateinit var mobileList: MobileList
         fun getIntent(context: Context, mobileList: MobileList): Intent {
             this.mobileList = mobileList

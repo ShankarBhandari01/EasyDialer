@@ -59,12 +59,9 @@ android {
         create("free") {
             dimension = "app"
             val appName = "EasyDialer App"
-            manifestPlaceholders["appName"] = appName
-            applicationIdSuffix = ".demo"
             versionName = "${getBuildNumber()}"
             versionCode = getBuildNumber()
-            val type = applicationIdSuffix?.replace("."," ")
-            val apkName = "${appName}$type($versionCode).apk"
+            val apkName = "${appName }($versionCode).apk"
 
             buildOutputs.all {
                 val variantOutputImpl =
