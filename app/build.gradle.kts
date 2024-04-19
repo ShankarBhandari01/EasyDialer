@@ -5,6 +5,20 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
 }
+
+fun getBuildNumber(): Int {
+    val buildNumberFile = File("build_number.txt")
+    return if (buildNumberFile.exists()) {
+        val lastBuildNumber = buildNumberFile.readText().toInt()
+        val newBuildNumber = lastBuildNumber + 1
+        buildNumberFile.writeText(newBuildNumber.toString())
+        newBuildNumber
+    } else {
+        buildNumberFile.writeText("1")
+        1
+    }
+
+}
 @Suppress("UnstableApiUsage")
 android {
     namespace = "com.example.easydialer"
@@ -19,18 +33,16 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    flavorDimensions.addAll(listOf("app"))
     buildTypes {
         release {
             isMinifyEnabled = false
-
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
         }
-
-
         debug {
             isDebuggable = true
             isShrinkResources = false
@@ -40,6 +52,25 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+
+    }
+    productFlavors {
+        create("free") {
+            dimension = "app"
+            val appName = "EasyDialer App"
+            manifestPlaceholders["appName"] = appName
+            applicationIdSuffix = ".demo"
+            versionName = "${getBuildNumber()}"
+            versionCode = getBuildNumber()
+            val type = applicationIdSuffix?.replace("."," ")
+            val apkName = "${appName}$type($versionCode).apk"
+
+            buildOutputs.all {
+                val variantOutputImpl =
+                    this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
+                variantOutputImpl.outputFileName = apkName
+            }
         }
     }
     compileOptions {
@@ -55,6 +86,7 @@ android {
         dataBinding = true
     }
 
+
 }
 
 dependencies {
@@ -67,8 +99,8 @@ dependencies {
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation ("com.android.support:support-v4:28.0.0")
-    implementation( "com.android.support:design:28.0.0")
+    implementation("com.android.support:support-v4:28.0.0")
+    implementation("com.android.support:design:28.0.0")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation("junit:junit:4.13.2")

@@ -17,7 +17,6 @@ import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
 import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
 import android.net.NetworkCapabilities.TRANSPORT_WIFI
 import android.net.Uri
-import android.os.Build
 import android.provider.Settings
 import android.text.TextUtils
 import android.util.Patterns
@@ -220,8 +219,11 @@ object Utils {
             )
             context.startActivity(intent)
             if (dialog != null && dialog?.isShowing == true) dialog?.dismiss()
-            dialog = OverlayDialog(context.applicationContext, number)
-            dialog?.show()
+            if (checkDrawOverlayPermission(context)) {
+                dialog = OverlayDialog(context.applicationContext, number)
+                dialog?.show()
+            }
+
         }
 
 
@@ -234,10 +236,6 @@ object Utils {
         return String.format("%02d:%02d:%02d", hours, minutes, seconds)
     }
 
-    fun checkDrawOverlayPermission(context: Context?): Boolean {
-        /** check if we already  have permission to draw over other apps  */
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Settings.canDrawOverlays(context)
-        } else true
-    }
+    fun checkDrawOverlayPermission(context: Context?): Boolean = Settings.canDrawOverlays(context)
+
 }
