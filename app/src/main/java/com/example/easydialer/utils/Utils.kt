@@ -28,6 +28,7 @@ import com.example.easydialer.R
 import com.example.easydialer.R.string.app_name
 import com.example.easydialer.databinding.DialogProgressBinding
 import com.example.easydialer.models.MobileListItem
+import com.example.easydialer.ui.dialogbox.OverlayDialog
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import org.json.JSONException
 import org.json.JSONObject
@@ -186,9 +187,7 @@ object Utils {
     }
 
     private fun showTimePickerDialog(
-        context: Context,
-        calendar: Calendar,
-        onDateTimeSelected: (String) -> Unit
+        context: Context, calendar: Calendar, onDateTimeSelected: (String) -> Unit
     ) {
         val timePickerDialog = TimePickerDialog(
             context,
@@ -210,19 +209,22 @@ object Utils {
         return dateFormat.format(calendar.time)
     }
 
+    var dialog: OverlayDialog? = null
     fun startCall(number: MobileListItem, context: Context) {
         context.runWithPermissions(Manifest.permission.CALL_PHONE) {
-            val mobile = "${number.mobile}".trim()
+            val mobile = number.mobile.trim()
             val intent = Intent(
-                Intent.ACTION_CALL,
-                Uri.parse(
+                Intent.ACTION_CALL, Uri.parse(
                     "tel:$mobile"
                 )
             )
-
-            intent.putExtra("mobile", number)
             context.startActivity(intent)
+            if (dialog != null && dialog?.isShowing == true) dialog?.dismiss()
+            dialog = OverlayDialog(context.applicationContext, number)
+            dialog?.show()
         }
+
+
     }
 
     fun formatDuration(durationMillis: Long): String {

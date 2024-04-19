@@ -7,11 +7,23 @@
     android:background="@color/white"
     app:cardCornerRadius="@dimen/_12sdp">
 
+    <ImageButton
+        android:id="@+id/btn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_12sdp"
+        android:background="@null"
+        android:contentDescription="TODO"
+        android:src="@drawable/ic_close"
+        android:translationZ="@dimen/_12sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/photo"
         android:layout_width="@dimen/_70sdp"
         android:layout_height="@dimen/_70sdp"
-        android:layout_margin="@dimen/_15sdp"
+        android:layout_margin="@dimen/_1sdp"
         android:contentDescription="profile"
         android:scaleType="centerCrop"
         android:src="@drawable/profile"

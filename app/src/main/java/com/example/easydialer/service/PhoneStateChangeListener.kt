@@ -6,6 +6,7 @@ import android.os.SystemClock
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
 import com.example.easydialer.ui.dialogbox.OverlayDialog
+import com.example.easydialer.utils.Utils.dialog
 
 
 class PhoneStateChangeListener(
@@ -14,7 +15,6 @@ class PhoneStateChangeListener(
     var onCallStatusChanged: (Long) -> Unit
 ) :
     PhoneStateListener() {
-    lateinit var dialog: OverlayDialog
     private var callStartTime: Long = 0
     override fun onCallStateChanged(state: Int, phoneNumber: String) {
         when (state) {
@@ -24,9 +24,6 @@ class PhoneStateChangeListener(
                     val callDurationMillis = SystemClock.elapsedRealtime() - callStartTime
                     onCallStatusChanged(callDurationMillis)
                     callStartTime = 0
-                    if (::dialog.isInitialized)
-                        dialog.hide()
-
                 }
             }
 
@@ -37,12 +34,6 @@ class PhoneStateChangeListener(
             TelephonyManager.CALL_STATE_OFFHOOK -> {
                 // Call in progress
                 callStartTime = SystemClock.elapsedRealtime()
-                val extras = intent.extras
-                if (extras != null && (::dialog.isInitialized)) {
-                    val incomingNumber = extras.getString("incoming_number")
-                    dialog = OverlayDialog(context.applicationContext, incomingNumber)
-                    dialog.show()
-                }
             }
         }
         super.onCallStateChanged(state, phoneNumber)
