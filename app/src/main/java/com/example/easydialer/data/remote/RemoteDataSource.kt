@@ -1,5 +1,6 @@
 package com.example.easydialer.data.remote
 
+import com.example.easydialer.models.DispositionUpdate
 import com.example.easydialer.models.Login
 import javax.inject.Inject
 
@@ -12,4 +13,6 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
     suspend fun getCampaignMobile(id: Int) = apiService.getCampaignMobile(id)
     suspend fun login(login: Login) = apiService.login(login)
     suspend fun getCampaignSummary(id: Int) = apiService.getCampaignInfoById(id)
+    suspend fun updateCampaignMobile(dispositionUpdate: DispositionUpdate) =
+        apiService.updateCampaignMobile(dispositionUpdate)
 }

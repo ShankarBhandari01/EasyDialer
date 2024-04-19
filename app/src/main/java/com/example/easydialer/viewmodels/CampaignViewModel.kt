@@ -9,11 +9,16 @@ import com.example.easydialer.models.AgentList
 import com.example.easydialer.models.CampaignResponse
 import com.example.easydialer.models.CampaignSummary
 import com.example.easydialer.models.DispositionList
+import com.example.easydialer.models.DispositionUpdate
+import com.example.easydialer.models.FollowUPStatus
 import com.example.easydialer.models.MobileList
+import com.example.easydialer.models.MobileListItem
 import com.example.easydialer.repository.CampaignRepository
 import com.example.easydialer.utils.NetWorkResult
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,7 +49,7 @@ class CampaignViewModel @Inject constructor(
     private val _responseCampaignSummary: MutableLiveData<NetWorkResult<CampaignSummary>> =
         MutableLiveData()
 
-    val responseCampaignSummary:LiveData<NetWorkResult<CampaignSummary>> =_responseCampaignSummary
+    val responseCampaignSummary: LiveData<NetWorkResult<CampaignSummary>> = _responseCampaignSummary
 
 
     fun getCampaign() {
@@ -81,12 +86,20 @@ class CampaignViewModel @Inject constructor(
         }
     }
 
-    fun getCallFollowUpStatus() {
 
-    }
-
-    fun updateCampaignMobile(){
-
+    fun updateCampaignMobile(
+        followUPStatus: FollowUPStatus,
+        selectedMobileListItem: MobileListItem
+    ) {
+        val dispositionUpdate = DispositionUpdate()
+        dispositionUpdate.campaignId = selectedMobileListItem.campaign_id
+        dispositionUpdate.mobile = selectedMobileListItem.mobile
+        dispositionUpdate.datetime = selectedMobileListItem.dialed_at
+        dispositionUpdate.type = followUPStatus.type
+        dispositionUpdate.remarks = ""
+        viewModelScope.launch {
+            repository.updateCampaignMobile(context, dispositionUpdate)
+        }
     }
 
 }

@@ -1,15 +1,15 @@
 package com.example.easydialer.data.remote
 
 
+import com.example.easydialer.models.Agent
 import com.example.easydialer.models.AgentList
 import com.example.easydialer.models.CampaignResponse
-import com.example.easydialer.models.Agent
 import com.example.easydialer.models.CampaignSummary
 import com.example.easydialer.models.DispositionList
+import com.example.easydialer.models.DispositionUpdate
 import com.example.easydialer.models.Login
-import com.example.easydialer.models.MobileList
 import com.example.easydialer.models.LoginResponse
-import com.example.easydialer.models.MobileListItem
+import com.example.easydialer.models.MobileList
 import com.example.easydialer.utils.Constants.Companion.API_AGENT
 import com.example.easydialer.utils.Constants.Companion.API_AGENT_PROFILE
 import com.example.easydialer.utils.Constants.Companion.API_CAMPAIGN
@@ -24,6 +24,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import java.util.Objects
 
 interface ApiService {
 
@@ -50,9 +51,9 @@ interface ApiService {
 
     @GET(API_CAMPAIGN_INFO_BY_ID)
     suspend fun getCampaignInfoById(@Path("id") id: Int): Response<CampaignSummary>
-    /*
-        @POST(API_CAMPAIGN_UPDATE_MOBILE)
-        suspend fun updateCampaignMobile(@Body mobile: MobileListItem): Response<>*/
+
+    @POST(API_CAMPAIGN_UPDATE_MOBILE)
+    suspend fun updateCampaignMobile(@Body dispositionUpdate: DispositionUpdate): Response<Objects>
 
 
 }

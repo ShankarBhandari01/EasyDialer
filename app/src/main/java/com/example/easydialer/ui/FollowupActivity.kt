@@ -61,7 +61,6 @@ class FollowupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.toolbar.back.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
-        loadFollowUpStatus()
         checkAutoCall()
         with(binding) {
             toolbar.title.text = "Call FollowUp"
@@ -104,7 +103,7 @@ class FollowupActivity : AppCompatActivity() {
     private fun init() {
         try {
             appAdaptor = AppAdaptor(context = this@FollowupActivity) {
-                viewModel.updateCampaignMobile()
+                viewModel.updateCampaignMobile(it, selectedMobileListItem)
             }
             binding.list.apply { adapter = appAdaptor }
             val animation: LayoutAnimationController = AnimationUtils.loadLayoutAnimation(
@@ -132,9 +131,6 @@ class FollowupActivity : AppCompatActivity() {
 
     }
 
-    private fun loadFollowUpStatus() {
-        viewModel.getCallFollowUpStatus()
-    }
 
     private fun checkCallType() {
         val dispositionList = CampaignDetailsActivity.dispositionList
