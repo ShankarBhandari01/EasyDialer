@@ -222,6 +222,8 @@ object Utils {
             if (checkDrawOverlayPermission(context)) {
                 dialog = OverlayDialog(context.applicationContext, number)
                 dialog?.show()
+            } else {
+                SweetToast.info(context, "Display over other app is not allowed by app ")
             }
 
         }
