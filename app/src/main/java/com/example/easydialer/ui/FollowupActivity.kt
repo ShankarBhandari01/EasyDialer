@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
@@ -61,7 +63,6 @@ class FollowupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.toolbar.back.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
-        checkAutoCall()
         with(binding) {
             toolbar.title.text = "Call FollowUp"
             selectedMobileListItem = mobileList[currentIndex] // current selected mobile
@@ -92,6 +93,9 @@ class FollowupActivity : AppCompatActivity() {
         }
         setUpCallListener()
 
+        Handler(Looper.getMainLooper()).postDelayed({
+            checkAutoCall()
+        }, 1000)
     }
 
     private fun loadDispositionStatus() {
