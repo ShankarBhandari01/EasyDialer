@@ -20,6 +20,7 @@ import com.example.easydialer.models.FollowUPStatus
 import com.example.easydialer.models.MobileList
 import com.example.easydialer.models.MobileListItem
 import com.example.easydialer.ui.adaptor.AppAdaptor
+import com.example.easydialer.utils.ApiResultHandler
 import com.example.easydialer.utils.Utils
 import com.example.easydialer.utils.Utils.formatDateTime
 import com.example.easydialer.utils.Utils.getCurrentDateTimeWithAMPM
@@ -96,7 +97,32 @@ class FollowupActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             checkAutoCall()
         }, 1000)
+
+        initObservers()
     }
+
+    private fun initObservers() {
+        viewModel.updateCampaignMobileState.observe(this) { uiState ->
+            val apiResultHandler = ApiResultHandler<Any>(
+                this@FollowupActivity,
+                onLoading = {
+                    Utils.showProgressDialog(
+                        "Updating Disposition, please Wait",
+                        this@FollowupActivity
+                    )
+                },
+                onSuccess = {
+                    Utils.dismissProgressDialog()
+                    doNextCallImmediately()
+                },
+                onFailure = {
+                    Utils.dismissProgressDialog()
+                }
+            )
+            apiResultHandler.handleApiResult(uiState)
+        }
+    }
+
 
     private fun loadDispositionStatus() {
         if (CampaignDetailsActivity.campaignSummary.disposition.isNotEmpty()) {
@@ -118,6 +144,11 @@ class FollowupActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.stackTrace
         }
+    }
+
+    private fun doNextCallImmediately() {
+        handleNextNumber()
+        startCall(selectedMobileListItem, this)
     }
 
     override fun onDestroy() {

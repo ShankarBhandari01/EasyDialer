@@ -138,11 +138,6 @@ object Utils {
         }
     }
 
-//    fun setDialogMessage(message: String?) {
-//        if (progressDialog != null) {
-//            progressDialog
-//        }
-//    }
 
     fun isValidEmail(target: CharSequence): Boolean {
         return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()

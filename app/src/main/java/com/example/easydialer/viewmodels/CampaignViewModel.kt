@@ -15,10 +15,8 @@ import com.example.easydialer.models.MobileList
 import com.example.easydialer.models.MobileListItem
 import com.example.easydialer.repository.CampaignRepository
 import com.example.easydialer.utils.NetWorkResult
-import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -50,6 +48,10 @@ class CampaignViewModel @Inject constructor(
         MutableLiveData()
 
     val responseCampaignSummary: LiveData<NetWorkResult<CampaignSummary>> = _responseCampaignSummary
+
+    private val _updateCampaignMobile: MutableLiveData<NetWorkResult<Any>> = MutableLiveData()
+
+    val updateCampaignMobileState: LiveData<NetWorkResult<Any>> = _updateCampaignMobile
 
 
     fun getCampaign() {
@@ -98,7 +100,9 @@ class CampaignViewModel @Inject constructor(
         dispositionUpdate.type = followUPStatus.type
         dispositionUpdate.remarks = ""
         viewModelScope.launch {
-            repository.updateCampaignMobile(context, dispositionUpdate)
+            repository.updateCampaignMobile(context, dispositionUpdate).collect {
+                _updateCampaignMobile.value = it
+            }
         }
     }
 
