@@ -28,12 +28,9 @@ class OverlayDialog(context: Context, private var phoneNumber: MobileListItem) :
         }
     }
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onStart() {
         super.onStart()
-        val mobile = FollowupActivity.selectedMobileListItem
-        Timber.tag("NumberSelected").e(Gson().toJson(mobile))
         binding.phone.text = phoneNumber.mobile
         val window = window
         window?.setBackgroundDrawableResource(R.drawable.rounded_corner) // Set the custom background drawable
