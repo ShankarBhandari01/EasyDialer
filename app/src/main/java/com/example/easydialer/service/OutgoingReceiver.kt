@@ -13,9 +13,11 @@ import com.example.easydialer.utils.Utils
 class OutgoingReceiver : BroadcastReceiver() {
     var context: Context? = null
 
+
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context == null || intent == null) return
+
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         val pscl = PhoneStateChangeListener(context, intent) { callDurationMillis ->
             val broadcastIntent =
@@ -26,11 +28,10 @@ class OutgoingReceiver : BroadcastReceiver() {
             context.sendBroadcast(broadcastIntent)
         }
         tm.listen(pscl, PhoneStateListener.LISTEN_CALL_STATE)
-
     }
 
     fun start() {
-        val intentFilter = IntentFilter(Intent.ACTION_NEW_OUTGOING_CALL)
+        val intentFilter = IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED)
         context?.registerReceiver(this, intentFilter)
     }
 
