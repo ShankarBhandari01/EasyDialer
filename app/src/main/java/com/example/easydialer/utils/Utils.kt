@@ -36,6 +36,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 
 object Utils {
@@ -203,8 +204,7 @@ object Utils {
         return dateFormat.format(calendar.time)
     }
 
-    var dialog: OverlayDialog? = null
-    fun startCall(number: MobileListItem, context: Context) {
+    fun startCall(number: MobileListItem, context: Context, dialog: OverlayDialog) {
         context.runWithPermissions(Manifest.permission.CALL_PHONE) {
             val mobile = number.mobile.trim()
             val intent = Intent(
@@ -213,17 +213,15 @@ object Utils {
                 )
             )
             context.startActivity(intent)
-            if (dialog != null && dialog?.isShowing == true) dialog?.dismiss()
+            if (dialog.isShowing) dialog.dismiss()
             if (checkDrawOverlayPermission(context)) {
-                dialog = OverlayDialog(context.applicationContext, number)
-                dialog?.show()
+                dialog.setPhoneNumber(phoneNumber = number)
+                dialog.show()
             } else {
                 SweetToast.info(context, "Display over other app is not allowed by app ")
             }
 
         }
-
-
     }
 
     fun formatDuration(durationMillis: Long): String {

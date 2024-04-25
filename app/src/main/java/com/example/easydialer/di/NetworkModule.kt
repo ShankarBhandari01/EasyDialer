@@ -28,7 +28,7 @@ object NetworkModule {
     }
 
     @Provides
-    fun providesChuckerInterceptor(@ApplicationContext context: Context): ChuckerInterceptor {
+    fun providesCheckerInterceptor(@ApplicationContext context: Context): ChuckerInterceptor {
         return ChuckerInterceptor(context)
     }
 

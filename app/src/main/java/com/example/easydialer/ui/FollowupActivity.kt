@@ -1,5 +1,6 @@
 package com.example.easydialer.ui
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -20,6 +21,7 @@ import com.example.easydialer.models.FollowUPStatus
 import com.example.easydialer.models.MobileList
 import com.example.easydialer.models.MobileListItem
 import com.example.easydialer.ui.adaptor.AppAdaptor
+import com.example.easydialer.ui.dialogbox.OverlayDialog
 import com.example.easydialer.utils.ApiResultHandler
 import com.example.easydialer.utils.Utils
 import com.example.easydialer.utils.Utils.formatDateTime
@@ -37,6 +39,9 @@ class FollowupActivity : AppCompatActivity() {
     private val viewModel by viewModels<CampaignViewModel>()
     private lateinit var appAdaptor: AppAdaptor<FollowUPStatus>
 
+    lateinit var dialog: OverlayDialog
+
+
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val callDurationMillis = intent?.getLongExtra("call_duration_millis", 0L)
@@ -47,6 +52,7 @@ class FollowupActivity : AppCompatActivity() {
             Timber.tag("Calling ${selectedMobileListItem.mobile}")
                 .e("Selected Mobile data $selectedMobileListItem")
             binding.llFollowupLayout.visibility = View.VISIBLE
+            if (::dialog.isInitialized && dialog.isShowing) dialog.dismiss()
         }
     }
 
@@ -60,9 +66,12 @@ class FollowupActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        dialog = OverlayDialog(this)
+
         binding.toolbar.back.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         with(binding) {
             toolbar.title.text = "Call FollowUp"
@@ -85,7 +94,7 @@ class FollowupActivity : AppCompatActivity() {
             }
 
             callnow.setOnClickListener {
-                startCall(selectedMobileListItem, this@FollowupActivity)
+                startCall(selectedMobileListItem, this@FollowupActivity, dialog)
             }
 
             stopnext.setOnClickListener {
@@ -129,7 +138,6 @@ class FollowupActivity : AppCompatActivity() {
             appAdaptor.setData(CampaignDetailsActivity.campaignSummary.disposition)
         }
     }
-
     private fun init() {
         try {
             appAdaptor = AppAdaptor(context = this@FollowupActivity) {
@@ -148,7 +156,7 @@ class FollowupActivity : AppCompatActivity() {
 
     private fun doNextCallImmediately() {
         handleNextNumber()
-        startCall(selectedMobileListItem, this)
+        startCall(selectedMobileListItem, this, dialog)
     }
 
     override fun onDestroy() {
@@ -182,7 +190,7 @@ class FollowupActivity : AppCompatActivity() {
         if (CampaignDetailsActivity.campaign.mode.equals("AUTO", true)) {
             Toast.makeText(this, "Auto Call detected ", Toast.LENGTH_SHORT).show()
             selectedMobileListItem = mobileList.random()
-            startCall(selectedMobileListItem, this)
+            startCall(selectedMobileListItem, this, dialog)
         }
     }
 

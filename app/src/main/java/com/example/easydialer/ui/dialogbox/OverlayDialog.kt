@@ -11,13 +11,15 @@ import androidx.appcompat.app.AppCompatDialog
 import com.example.easydialer.R
 import com.example.easydialer.databinding.ActivityOverlayBinding
 import com.example.easydialer.models.MobileListItem
-import com.example.easydialer.ui.FollowupActivity
-import com.google.gson.Gson
-import timber.log.Timber
 
 
-class OverlayDialog(context: Context, private var phoneNumber: MobileListItem) :
+class OverlayDialog(context: Context) :
     AppCompatDialog(context, R.style.Theme_EasyDialer) {
+    private lateinit var phoneNumber: MobileListItem
+    fun setPhoneNumber(phoneNumber: MobileListItem) {
+        this.phoneNumber = phoneNumber
+    }
+
     private val binding by lazy { ActivityOverlayBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
