@@ -2,19 +2,19 @@ package com.example.easydialer.ui
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.AnimationUtils
-import android.view.animation.LayoutAnimationController
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.example.easydialer.BR
 import com.example.easydialer.R
-import com.example.easydialer.viewmodels.OfflineDatabaseViewModel
 import com.example.easydialer.databinding.ActivityMainBinding
 import com.example.easydialer.models.LoginResponse
 import com.example.easydialer.models.Menus
 import com.example.easydialer.ui.adaptor.AppAdaptor
+import com.example.easydialer.utils.MenuType
 import com.example.easydialer.utils.SweetToast
+import com.example.easydialer.viewmodels.OfflineDatabaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,17 +43,39 @@ class MainActivity : AppCompatActivity() {
 
     private fun init() {
         appAdaptor = AppAdaptor(this) {
-            if (it.name.equals("Tele Caller", true)) {
-                startActivity(Intent(this@MainActivity, TelDialerActivity::class.java))
-            } else {
-                SweetToast.info(this, "Menu does not exits yet")
+            when (MenuType.fromDisplayName(it.name)) {
+                MenuType.TELE_CALLER -> {
+                    startActivity(Intent(this@MainActivity, TelDialerActivity::class.java))
+                }
+
+                MenuType.DATA_ENTRY -> {
+                    SweetToast.info(this, "Data Entry")
+                }
+
+                MenuType.ATTENDANCE -> {
+                    SweetToast.info(this, "Attendance")
+                }
+
+                MenuType.TICKET_SYSTEM -> {
+                    SweetToast.info(this, "Ticket System")
+                }
+
+                MenuType.CRM -> {
+                    SweetToast.info(this, "CRM")
+                }
+
+                MenuType.LEAVE -> {
+                    SweetToast.info(this, "Leave")
+                }
+
+                else -> {
+                    SweetToast.info(this, "Menu does not exits yet")
+                }
             }
 
         }
         binding.list.apply { adapter = appAdaptor }
-        val animation: LayoutAnimationController = AnimationUtils.loadLayoutAnimation(
-            this, R.anim.layout_animation_fall_down
-        )
+        val animation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_fall_down)
         binding.list.layoutAnimation = animation
     }
 

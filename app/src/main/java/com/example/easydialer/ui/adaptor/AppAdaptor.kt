@@ -10,6 +10,7 @@ import com.example.easydialer.databinding.RvFollowUpStatusBinding
 import com.example.easydialer.models.CampaignResponseItem
 import com.example.easydialer.models.FollowUPStatus
 import com.example.easydialer.models.Menus
+import com.example.easydialer.service.TelephonyManagerHandler
 import com.example.easydialer.ui.adaptor.viewholders.CampaignViewHolder
 import com.example.easydialer.ui.adaptor.viewholders.DashboardMenuHolder
 import com.example.easydialer.ui.adaptor.viewholders.FollowUpStatusHolder
@@ -22,6 +23,7 @@ import dagger.hilt.android.scopes.ActivityRetainedScoped
 class AppAdaptor<T>(var context: Context, private val onItemClick: (T) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var dataList: ArrayList<T> = ArrayList()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {

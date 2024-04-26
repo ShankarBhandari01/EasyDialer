@@ -7,7 +7,7 @@ import com.example.easydialer.models.Menus
 
 class DashboardMenuHolder<T>(
     var binding: RvDashboardMenuBinding,
-    private val onItemClick: (data: T) -> Unit
+    private val onItemClick: (T) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(menu: Menus) {
         binding.setVariable(BR.menu, menu)

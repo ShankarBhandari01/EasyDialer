@@ -7,7 +7,7 @@ import com.example.easydialer.models.CampaignResponseItem
 
 class CampaignViewHolder<T>(
     private val binding: RvCampaignListBinding,
-    private val onItemClick: (data: T) -> Unit
+    private val onItemClick: (T) -> Unit
 ) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(campaign: CampaignResponseItem) {

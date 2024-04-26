@@ -1,7 +1,6 @@
 package com.example.easydialer.ui.adaptor.viewholders
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.easydialer.BR
@@ -10,7 +9,7 @@ import com.example.easydialer.models.FollowUPStatus
 
 class FollowUpStatusHolder<T>(
     private val binding: RvFollowUpStatusBinding,
-    private val onItemClick: (data: T) -> Unit,
+    private val onItemClick: (T) -> Unit,
     private val context: Context
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(status: FollowUPStatus, postion: Int) {
