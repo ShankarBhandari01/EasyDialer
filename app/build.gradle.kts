@@ -55,7 +55,7 @@ android {
         }
 
     }
-    productFlavors {
+    /*productFlavors {
         create("free") {
             dimension = "app"
             val appName = "EasyDialer App"
@@ -69,7 +69,7 @@ android {
                 variantOutputImpl.outputFileName = apkName
             }
         }
-    }
+    }*/
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8

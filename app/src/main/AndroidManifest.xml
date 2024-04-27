@@ -32,7 +32,6 @@
     <uses-permission android:name="android.permission.NEW_OUTGOING_CALL" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-
     <application
         android:name=".application.EasyDialerApplication"
         android:allowBackup="true"
@@ -44,6 +43,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyDialer"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.menus.ActivityAttendance"
+            android:exported="false" />
+        <activity
+            android:name=".ui.menus.ActivityDataEntry"
+            android:exported="false" />
 
         <receiver
             android:name=".service.OutgoingReceiver"
@@ -91,9 +96,7 @@
             android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-
                 <action android:name="android.intent.action.CALL" />
             </intent-filter>
         </activity>

@@ -12,6 +12,8 @@ import com.example.easydialer.databinding.ActivityMainBinding
 import com.example.easydialer.models.LoginResponse
 import com.example.easydialer.models.Menus
 import com.example.easydialer.ui.adaptor.AppAdaptor
+import com.example.easydialer.ui.menus.ActivityAttendance
+import com.example.easydialer.ui.menus.ActivityDataEntry
 import com.example.easydialer.utils.MenuType
 import com.example.easydialer.utils.SweetToast
 import com.example.easydialer.viewmodels.OfflineDatabaseViewModel
@@ -49,11 +51,11 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 MenuType.DATA_ENTRY -> {
-                    SweetToast.info(this, "Data Entry")
+                    startActivity(Intent(this@MainActivity, ActivityDataEntry::class.java))
                 }
 
                 MenuType.ATTENDANCE -> {
-                    SweetToast.info(this, "Attendance")
+                    startActivity(Intent(this@MainActivity, ActivityAttendance::class.java))
                 }
 
                 MenuType.TICKET_SYSTEM -> {
