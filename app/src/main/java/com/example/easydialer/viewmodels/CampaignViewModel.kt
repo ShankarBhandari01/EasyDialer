@@ -8,6 +8,7 @@ import com.example.easydialer.base.BaseViewModel
 import com.example.easydialer.models.AgentList
 import com.example.easydialer.models.CampaignResponse
 import com.example.easydialer.models.CampaignSummary
+import com.example.easydialer.models.CampaignUpdateResponse
 import com.example.easydialer.models.DispositionList
 import com.example.easydialer.models.DispositionUpdate
 import com.example.easydialer.models.FollowUPStatus
@@ -49,9 +50,9 @@ class CampaignViewModel @Inject constructor(
 
     val responseCampaignSummary: LiveData<NetWorkResult<CampaignSummary>> = _responseCampaignSummary
 
-    private val _updateCampaignMobile: MutableLiveData<NetWorkResult<Any>> = MutableLiveData()
+    private val _updateCampaignMobile: MutableLiveData<NetWorkResult<CampaignUpdateResponse>> = MutableLiveData()
 
-    val updateCampaignMobileState: LiveData<NetWorkResult<Any>> = _updateCampaignMobile
+    val updateCampaignMobileState: LiveData<NetWorkResult<CampaignUpdateResponse>> = _updateCampaignMobile
 
 
     fun getCampaign() {
@@ -97,7 +98,7 @@ class CampaignViewModel @Inject constructor(
         dispositionUpdate.campaignId = selectedMobileListItem.campaign_id
         dispositionUpdate.mobile = selectedMobileListItem.mobile
         dispositionUpdate.datetime = selectedMobileListItem.dialed_at
-        dispositionUpdate.type = followUPStatus.type
+        dispositionUpdate.type = followUPStatus.status
         dispositionUpdate.remarks = ""
         viewModelScope.launch {
             repository.updateCampaignMobile(context, dispositionUpdate).collect {

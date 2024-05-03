@@ -5,6 +5,7 @@ import com.example.easydialer.data.remote.RemoteDataSource
 import com.example.easydialer.models.AgentList
 import com.example.easydialer.models.CampaignResponse
 import com.example.easydialer.models.CampaignSummary
+import com.example.easydialer.models.CampaignUpdateResponse
 import com.example.easydialer.models.DispositionList
 import com.example.easydialer.models.DispositionUpdate
 import com.example.easydialer.models.MobileList
@@ -55,7 +56,7 @@ class CampaignRepository @Inject constructor(private val remoteDataSource: Remot
     suspend fun updateCampaignMobile(
         context: Context,
         dispositionUpdate: DispositionUpdate
-    ): Flow<NetWorkResult<Any>> {
+    ): Flow<NetWorkResult<CampaignUpdateResponse>> {
         return toResultFlow(context) {
             remoteDataSource.updateCampaignMobile(dispositionUpdate)
         }

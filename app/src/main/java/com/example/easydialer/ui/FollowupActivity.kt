@@ -17,12 +17,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.easydialer.R
 import com.example.easydialer.databinding.ActivityFollowupBinding
+import com.example.easydialer.models.CampaignUpdateResponse
 import com.example.easydialer.models.FollowUPStatus
 import com.example.easydialer.models.MobileList
 import com.example.easydialer.models.MobileListItem
 import com.example.easydialer.ui.adaptor.AppAdaptor
 import com.example.easydialer.ui.dialogbox.OverlayDialog
 import com.example.easydialer.utils.ApiResultHandler
+import com.example.easydialer.utils.SweetToast
 import com.example.easydialer.utils.Utils
 import com.example.easydialer.utils.Utils.formatDateTime
 import com.example.easydialer.utils.Utils.getCurrentDateTimeWithAMPM
@@ -49,10 +51,11 @@ class FollowupActivity : AppCompatActivity() {
             selectedMobileListItem.dialed = 1
             selectedMobileListItem.duration = Utils.formatDuration(callDurationMillis ?: 0)
             selectedMobileListItem.dialed_at = formatDateTime()
-            Timber.tag("Calling ${selectedMobileListItem.mobile}")
-                .e("Selected Mobile data $selectedMobileListItem")
             binding.llFollowupLayout.visibility = View.VISIBLE
             if (::dialog.isInitialized && dialog.isShowing) dialog.dismiss()
+
+            Timber.tag("Calling ${selectedMobileListItem.mobile}")
+                .e("Selected Mobile data $selectedMobileListItem")
         }
     }
 
@@ -112,7 +115,7 @@ class FollowupActivity : AppCompatActivity() {
 
     private fun initObservers() {
         viewModel.updateCampaignMobileState.observe(this) { uiState ->
-            val apiResultHandler = ApiResultHandler<Any>(
+            val apiResultHandler = ApiResultHandler<CampaignUpdateResponse>(
                 this@FollowupActivity,
                 onLoading = {
                     Utils.showProgressDialog(
@@ -121,8 +124,13 @@ class FollowupActivity : AppCompatActivity() {
                     )
                 },
                 onSuccess = {
+                    SweetToast.info(this@FollowupActivity, it?.message!!)
                     Utils.dismissProgressDialog()
-                    doNextCallImmediately()
+                    selectedMobileListItem.isUpdate = true
+                    Handler(Looper.getMainLooper()).postDelayed(
+                        { handleNextNumber(true) }, 1000
+                    )
+
                 },
                 onFailure = {
                     Utils.dismissProgressDialog()
@@ -138,10 +146,15 @@ class FollowupActivity : AppCompatActivity() {
             appAdaptor.setData(CampaignDetailsActivity.campaignSummary.disposition)
         }
     }
+
     private fun init() {
         try {
             appAdaptor = AppAdaptor(context = this@FollowupActivity) {
-                viewModel.updateCampaignMobile(it, selectedMobileListItem)
+                if (selectedMobileListItem.isUpdate == true) {
+                    handleNextNumber()
+                } else {
+                    viewModel.updateCampaignMobile(it, selectedMobileListItem)
+                }
             }
             binding.list.apply { adapter = appAdaptor }
             val animation: LayoutAnimationController = AnimationUtils.loadLayoutAnimation(
@@ -154,10 +167,6 @@ class FollowupActivity : AppCompatActivity() {
         }
     }
 
-    private fun doNextCallImmediately() {
-        handleNextNumber()
-        startCall(selectedMobileListItem, this, dialog)
-    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -194,14 +203,19 @@ class FollowupActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleNextNumber() {
+    private fun handleNextNumber(isStartCall: Boolean = false) {
         if (currentIndex < mobileList.size - 1) {
             currentIndex++
+
+            selectedMobileListItem = mobileList[currentIndex]
+            binding.phone.setText(selectedMobileListItem.mobile)
+
+            if (isStartCall) {
+                startCall(selectedMobileListItem, this, dialog)
+            }
         } else {
             Toast.makeText(this, "Number is not available ", Toast.LENGTH_SHORT).show()
         }
-        selectedMobileListItem = mobileList[currentIndex]
-        binding.phone.setText(selectedMobileListItem.mobile)
     }
 
 }

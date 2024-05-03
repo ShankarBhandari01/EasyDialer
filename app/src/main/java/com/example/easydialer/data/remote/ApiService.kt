@@ -5,6 +5,7 @@ import com.example.easydialer.models.Agent
 import com.example.easydialer.models.AgentList
 import com.example.easydialer.models.CampaignResponse
 import com.example.easydialer.models.CampaignSummary
+import com.example.easydialer.models.CampaignUpdateResponse
 import com.example.easydialer.models.DispositionList
 import com.example.easydialer.models.DispositionUpdate
 import com.example.easydialer.models.Login
@@ -53,7 +54,7 @@ interface ApiService {
     suspend fun getCampaignInfoById(@Path("id") id: Int): Response<CampaignSummary>
 
     @POST(API_CAMPAIGN_UPDATE_MOBILE)
-    suspend fun updateCampaignMobile(@Body dispositionUpdate: DispositionUpdate): Response<Objects>
+    suspend fun updateCampaignMobile(@Body dispositionUpdate: DispositionUpdate): Response<CampaignUpdateResponse>
 
 
 }
